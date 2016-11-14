@@ -84,6 +84,12 @@ class AddIdentity
         
     }
     
+    public function rollback() {
+        
+        $this->identities->rollback();
+        
+    }
+    
     public function commit() {
         
         $this->identities->commit();
