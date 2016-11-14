@@ -6,12 +6,12 @@ use Melisa\Repositories\Eloquent\Repository;
  * 
  * @author Luis Josafat Heredia Contreras
  */
-class UsersRepository extends Repository
+class IdentitiesRedirectRepository extends Repository
 {
     
     public function model() {
         
-        return 'App\Core\Models\User';
+        return 'App\Core\Models\IdentitiesRedirect';
         
     }
     
