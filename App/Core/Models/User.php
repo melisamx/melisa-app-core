@@ -9,24 +9,16 @@ class User extends Authenticatable
 {
     use Notifiable, UuidForKey, NoUpdateCreate;
     
+    /* necesary orm autenticable and no extend melisa model base */
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
+    
     public $incrementing = FALSE;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name', 'email', 'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'rememberToken',
     ];
