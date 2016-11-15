@@ -7,7 +7,7 @@ use Melisa\Laravel\Http\Requests\Generic;
  *
  * @author Luis Josafat Heredia Contreras
  */
-class AddIdentity extends Generic
+class CreateIdentity extends Generic
 {
     protected $rules = [
         'idUser'=>'required|max:36|exists:users,id',
@@ -24,11 +24,6 @@ class AddIdentity extends Generic
         'birthday'=>'sometimes',
     ];
     
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         
