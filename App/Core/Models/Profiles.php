@@ -1,12 +1,14 @@
 <?php namespace App\Core\Models;
 
-use Melisa\Laravel\Models\BaseUuid;
+use Melisa\Laravel\Models\Base;
 
-class Profiles extends BaseUuid
+class Profiles extends Base
 {
     
     protected $fillable = [
         'name', 'key', 'isSystem', 'active', 'icon'
     ];
+    
+    public $incrementing = false;
     
 }

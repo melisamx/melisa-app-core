@@ -38,4 +38,11 @@ class User extends Authenticatable
         return 'rememberToken';
     }
     
+    public function usersIdentities()
+    {
+        
+        return $this->hasMany('App\Core\Models\UsersIdentities', 'idUser');
+        
+    }
+    
 }

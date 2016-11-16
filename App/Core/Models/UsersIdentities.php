@@ -20,4 +20,11 @@ class UsersIdentities extends BaseUuid
         
     }
     
+    public function identity()
+    {
+        
+        return $this->hasOne('App\Core\Models\Identities', 'id', 'idIdentity');
+        
+    }
+    
 }
