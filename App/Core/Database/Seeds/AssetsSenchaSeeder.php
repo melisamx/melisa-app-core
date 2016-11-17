@@ -1,4 +1,4 @@
-<?php
+<?php namespace App\Core\Database\Seeds;
 
 use Illuminate\Database\Seeder;
 use Melisa\Laravel\Database\FirstOrCreate;
@@ -66,14 +66,14 @@ class AssetsSenchaSeeder extends Seeder
             [
                 'id'=>'extjs.601.modern.neptune.css',
                 'idAssetType'=>2,
-                'name'=>'Sencha ExtJS 6 theme modern neptune',
+                'name'=>'Sencha ExtJS 6 theme modern neptune css',
                 'path'=>'/vendor/sencha/601/modern/theme-neptune/resources/theme-neptune-all.css',
                 'extraParams'=>'androidAsset=inject'
             ],
             [
                 'id'=>'extjs.601.modern.triton.css',
                 'idAssetType'=>2,
-                'name'=>'Sencha ExtJS 6 theme classic triton',
+                'name'=>'Sencha ExtJS 6 theme classic triton css',
                 'path'=>'/vendor/sencha/601/classic/theme-triton/resources/theme-triton-all.css',
                 'extraParams'=>'androidAsset=inject'
             ],

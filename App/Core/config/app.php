@@ -176,7 +176,7 @@ return [
         Melisa\Laravel\Providers\AuthServiceProvider::class,
         // Melisa\Laravel\Providers\BroadcastServiceProvider::class,
         Melisa\Laravel\Providers\EventServiceProvider::class,
-        App\Driver\Providers\RouteServiceProvider::class,
+        App\Core\Providers\RouteServiceProvider::class,
         
         Melisa\Laravel\Providers\UuidProvider::class,
         Melisa\Laravel\Providers\HelpersProvider::class,

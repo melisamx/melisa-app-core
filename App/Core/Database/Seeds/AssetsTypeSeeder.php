@@ -1,4 +1,4 @@
-<?php
+<?php namespace App\Core\Database\Seeds;
 
 use Illuminate\Database\Seeder;
 use Melisa\Laravel\Database\FirstOrCreate;
@@ -11,7 +11,7 @@ class AssetsTypeSeeder extends Seeder
     public function run()
     {
         
-        $this->firstOrCreate([
+        $this->firstOrCreate('App\Core\Models\AssetsType', [
             [
                 'id'=>1,
                 'name'=>'JavaScript',

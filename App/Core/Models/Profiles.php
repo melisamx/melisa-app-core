@@ -9,6 +9,4 @@ class Profiles extends Base
         'name', 'key', 'isSystem', 'active', 'icon'
     ];
     
-    public $incrementing = false;
-    
 }

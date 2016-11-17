@@ -1,4 +1,4 @@
-<?php
+<?php namespace App\Core\Database\Seeds;
 
 use Illuminate\Database\Seeder;
 use Melisa\Laravel\Database\FirstOrCreate;
@@ -23,7 +23,7 @@ class AssetsCssSeeder extends Seeder
             [
                 'id'=>'animatecss',
                 'idAssetType'=>2,
-                'name'=>'Fontawesome',
+                'name'=>'Animate.css',
                 'path'=>'/vendor/animatecss/animate.min.css',
                 'extraParams'=>'androidAsset=inject',
             ],
