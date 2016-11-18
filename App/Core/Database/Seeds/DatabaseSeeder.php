@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersSeeder::class);
         $this->call(IdentitiesSeeder::class);
         $this->call(AssetsSeeder::class);
+        $this->call(PackageAssetsSeeder::class);
         
     }
     
