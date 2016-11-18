@@ -13,7 +13,7 @@ class PackageAssets extends BaseUuid
     
     public function items() {
         
-        return $this->hasMany('App\Core\Models\PackageAssetsItems', 'idAsset', 'id');
+        return $this->hasMany('App\Core\Models\PackageAssetsItems', 'idPackageAsset', 'id');
         
     }
     

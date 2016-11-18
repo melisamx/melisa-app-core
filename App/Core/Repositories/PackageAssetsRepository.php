@@ -11,7 +11,7 @@ class PackageAssetsRepository extends Repository
     
     public function model() {
         
-        return 'App\Core\Models\Assets';
+        return 'App\Core\Models\PackageAssets';
         
     }
     

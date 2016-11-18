@@ -1,13 +1,13 @@
 <?php namespace App\Core\Modules;
 
-use App\Core\Logics\Modules\LoadModule;
+use App\Core\Logics\Modules\Outbuildings;
 
 /**
  * 
  *
  * @author Luis Josafat Heredia Contreras
  */
-class ApplicationSencha extends LoadModule
+class ApplicationSenchaModule extends Outbuildings
 {
     
     public $layout = 'sencha.app';
@@ -18,10 +18,10 @@ class ApplicationSencha extends LoadModule
         
         return [
             'title'=>config('app.name'),
-            'appId'=>'fe11c8b6-be17-44a1-bf5d-a36cc4a5f95d',
+            'appId'=>'333333-3333-3333-333333333333',
             'urlManifest'=>"/$baseUrl/manifest/",
-            'imagePoweredBy'=>$this->getAsset('powerby.image'),
-            'bootstrap'=>$this->getView('sencha.bootstrap'),
+            'imagePoweredBy'=>$this->asset('powerby.image'),
+            'bootstrap'=>$this->view('sencha.bootstrap'),
         ];
         
     }
