@@ -27,6 +27,20 @@ class AssetsCssSeeder extends Seeder
                 'path'=>'/vendor/animatecss/3.5.1/animate.min.css',
                 'extraParams'=>'androidAsset=inject',
             ],
+            [
+                'id'=>'waves.css',
+                'idAssetType'=>2,
+                'name'=>'Waves Css',
+                'path'=>'/vendor/waves/0.7.5/waves.css',
+                'extraParams'=>'androidAsset=inject',
+            ],
+            [
+                'id'=>'waves.sencha',
+                'idAssetType'=>2,
+                'name'=>'Waves to Sencha',
+                'path'=>'/vendor/waves/0.7.5/sencha.css',
+                'extraParams'=>'androidAsset=inject',
+            ],
             
         ]);
         

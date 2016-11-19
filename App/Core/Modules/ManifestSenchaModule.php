@@ -14,14 +14,36 @@ class ManifestSenchaModule extends Outbuildings
     public $type = 'classic';
     public $js = [
         'classic'=>[
-            'extjs.601.js',
-            'extjs.601.classic.triton',
-            'extjs.601.locale.es',
+            'debug'=>[
+                'extjs.601.debug.js',
+                'extjs.601.classic.triton',
+                'extjs.601.locale.es',
+            ],
+            'nodebug'=>[
+                'extjs.601.js',
+                'extjs.601.classic.triton',
+                'extjs.601.locale.es',
+            ],
+        ],
+        'modern'=>[
+            'debug'=>[
+                'extjs.601.modern.debug.js',
+                'extjs.601.modern.neptune',
+                'extjs.601.locale.es',
+            ],
+            'nodebug'=>[
+                'extjs.601.modern.js',
+                'extjs.601.modern.neptune',
+                'extjs.601.locale.es',
+            ],
         ]
     ];
     public $css = [
         'classic'=>[
             'extjs.601.classic.triton.css'
+        ],
+        'modern'=>[
+            'extjs.601.modern.neptune.css'
         ]
     ];
     public $jsAdd = [];
@@ -119,13 +141,23 @@ class ManifestSenchaModule extends Outbuildings
     
     public function getCss() {
         
-        return $this->getAssets(array_merge($this->css[$this->type], $this->cssAdd));
+        $debug = $this->debug ? 'debug' : 'nodebug';
+        
+        return $this->getAssets(array_merge(
+            isset($this->css[$this->type][$debug]) ? $this->css[$this->type][$debug] : $this->css[$this->type], 
+            isset($this->cssAdd[$debug]) ? $this->cssAdd[$debug] : $this->cssAdd
+        ));
         
     }
     
     public function getJs() {
         
-        return $this->getAssets(array_merge($this->js[$this->type], $this->jsAdd));
+        $debug = $this->debug ? 'debug' : 'nodebug';
+        
+        return $this->getAssets(array_merge(
+            $this->js[$this->type][$debug], 
+            isset($this->jsAdd[$debug]) ? $this->jsAdd[$debug] : $this->jsAdd
+        ));
         
     }
     
