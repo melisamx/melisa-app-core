@@ -11,11 +11,21 @@ class Outbuildings
 {
     use LogicBusiness;
     
+    public $debug = true;
+    
     public function render() {
+        
+        $this->debug = config('app.env') === 'local' ? true : false;
         
         $dataDictionary = $this->dataDictionary($this);
         
-        return view($this->layout, $dataDictionary);
+        if( isset($this->layout) && is_string($this->layout)) {
+            
+            return view($this->layout, $dataDictionary);
+            
+        }
+        
+        return $dataDictionary;
         
     }
     

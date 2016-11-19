@@ -78,9 +78,14 @@ class Asset
             
         if( !$asset) {
 
-            return $this->error('Imposible get asset {a}', [
+            $this->info('Imposible get asset {a}, using direct key', [
                 'a'=>$key
             ]);
+            
+            /* suport assets statics definition */
+            return [
+                'url'=>$key
+            ];
 
         }
 
