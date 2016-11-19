@@ -42,7 +42,7 @@ class PackageAssetsItemsSeeder extends Seeder
             ],
             [
                 'idPackageAsset'=>'sencha.app',
-                'idAsset'=>'extjs.601.modern.triton.css',
+                'idAsset'=>'extjs.601.classic.triton.css',
             ],
             [
                 'idPackageAsset'=>'sencha.app',

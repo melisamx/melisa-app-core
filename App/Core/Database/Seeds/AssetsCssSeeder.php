@@ -16,7 +16,7 @@ class AssetsCssSeeder extends Seeder
                 'id'=>'fontawesome',
                 'idAssetType'=>2,
                 'name'=>'Fontawesome',
-                'path'=>'/vendor/fontawesome/css/font-awesome.min.css',
+                'path'=>'/vendor/fontawesome/4.6.3/css/font-awesome.min.css',
                 'cdn'=>'//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css',
                 'extraParams'=>'androidAsset=inject',
             ],
@@ -24,7 +24,7 @@ class AssetsCssSeeder extends Seeder
                 'id'=>'animatecss',
                 'idAssetType'=>2,
                 'name'=>'Animate.css',
-                'path'=>'/vendor/animatecss/animate.min.css',
+                'path'=>'/vendor/animatecss/3.5.1/animate.min.css',
                 'extraParams'=>'androidAsset=inject',
             ],
             
