@@ -1,6 +1,7 @@
 <?php namespace App\Core\Modules;
 
 use App\Core\Logics\Modules\Outbuildings;
+use App\Core\Repositories\ApplicationsRepository;
 
 /**
  * 
@@ -25,6 +26,11 @@ class ManifestSenchaModule extends Outbuildings
     ];
     public $jsAdd = [];
     public $cssAdd = [];
+    public $pathsAdd = [];
+    public $senchaPath = 'vendor/sencha/';
+    public $senchaVersion = '6.0.1';
+    public $senchaUxPath = '/src/ux';
+    public $nsAdd = [];
     
     public function dataDictionary() {
         
@@ -43,6 +49,7 @@ class ManifestSenchaModule extends Outbuildings
         return [
             'js'=>$this->getJs(),
             'css'=>$this->getCss(),
+            'paths'=>$this->getPaths(),
             'name'=>'Melisa',
             'version'=>'1.0.0.0',
             'id'=>'33333333-3333-3333-3333-333333333333',
@@ -76,6 +83,37 @@ class ManifestSenchaModule extends Outbuildings
     public function config() {
         
         return [];
+        
+    }
+    
+    public function getPaths() {
+        
+        $apps = app(ApplicationsRepository::class)->all([
+            'nameSpace',
+            'key',
+            'version'
+        ]);
+        
+        $urlServer = config('app.url');
+        $nameSpaces = [
+            'Ext.ux'=>sprintf('%s/%s%s%s', 
+                $urlServer,
+                $this->senchaPath,
+                $this->senchaVersion,
+                $this->senchaUxPath)
+        ];
+        
+        foreach($apps as $app) {
+            
+            $nameSpaces [$app->nameSpace]= sprintf('%s/%s.php/sencha/%s', 
+                $urlServer, 
+                $app->key,
+                $app->version
+            );
+            
+        }
+        
+        return array_merge($nameSpaces, $this->nsAdd);
         
     }
     
