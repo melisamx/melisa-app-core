@@ -41,6 +41,13 @@ class AssetsCssSeeder extends Seeder
                 'path'=>'/vendor/waves/0.7.5/sencha.css',
                 'extraParams'=>'androidAsset=inject',
             ],
+            [
+                'id'=>'roboto',
+                'idAssetType'=>2,
+                'name'=>'Font Roboto',
+                'path'=>'/vendor/roboto/style.css',
+                'extraParams'=>'androidAsset=inject',
+            ],
             
         ]);
         
