@@ -27,6 +27,24 @@ class AssetsJsSeeder extends Seeder
                 'path'=>'/vendor/waves/release/waves.min.js',
                 'extraParams'=>'androidAsset=inject',
             ],
+            [
+                'id'=>'momentjs',
+                'idAssetType'=>1,
+                'name'=>'MomentJs',
+                'path'=>'/vendor/momentjs/release/moment.min.js'
+            ],
+            [
+                'id'=>'momentjs.locales',
+                'idAssetType'=>1,
+                'name'=>'MomentJs Local ES',
+                'path'=>'/vendor/momentjs/release/locales.min.js'
+            ],
+            [
+                'id'=>'momentjs.precise.range',
+                'idAssetType'=>1,
+                'name'=>'MomentJs Precise Range',
+                'path'=>'/vendor/momentjs/release/moment-precise-range.js'
+            ],
             
         ]);
         
