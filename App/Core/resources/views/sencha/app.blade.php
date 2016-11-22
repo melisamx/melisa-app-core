@@ -6,6 +6,25 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <title>{{ $title }}</title>
+        <style>            
+            .loader-wrapper
+            {
+                width: 100%;
+                height: 100%;
+            }            
+            .loader-content
+            {
+                top:45%;
+                left:35%;
+                position:absolute
+            }            
+            .loader-wrapper img {
+                width: 70%;
+                position: absolute;
+                bottom: 1%;
+                left: 15%;
+            }
+        </style>
         
         <script type="text/javascript">            
             var Ext = Ext || {};
@@ -15,9 +34,9 @@
              * En nuestro caso:
              * - Los recursos estaticos estan apuntados a otro(s) subdominio
              * - Los NameSpace son dinamicos por aplicación:
-             *  - GW.clientes
-             *  - GW.otro.namespace
-             *  - Nerine
+             *  - Melisa.clientes
+             *  - Melisa.namespace
+             *  - Melisa
              * Nos da libertad de incluir al vuelo los scripts y css necesarios
              */
             Ext.beforeLoad = function (tags) {
