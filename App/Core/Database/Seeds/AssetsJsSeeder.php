@@ -24,7 +24,7 @@ class AssetsJsSeeder extends Seeder
                 'id'=>'waves',
                 'idAssetType'=>1,
                 'name'=>'Waves',
-                'path'=>'/vendor/waves/0.7.5/waves.min.js',
+                'path'=>'/vendor/waves/release/waves.min.js',
                 'extraParams'=>'androidAsset=inject',
             ],
             
