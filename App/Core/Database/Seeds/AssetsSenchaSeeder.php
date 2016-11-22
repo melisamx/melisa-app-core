@@ -17,12 +17,14 @@ class AssetsSenchaSeeder extends Seeder
                 'idAssetType'=>1,
                 'name'=>'Sencha ExtJS 6 all',
                 'path'=>'/vendor/sencha/6.0.1/ext-all.js',
+                'extraParams'=>'androidAsset=inject',
             ],
             [
                 'id'=>'extjs.601.debug.js',
                 'idAssetType'=>1,
                 'name'=>'Sencha ExtJS 6 all debug',
                 'path'=>'/vendor/sencha/6.0.1/ext-all-debug.js',
+                'extraParams'=>'androidAsset=inject',
             ],
             [
                 'id'=>'extjs.601.modern.js',
@@ -43,6 +45,7 @@ class AssetsSenchaSeeder extends Seeder
                 'idAssetType'=>1,
                 'name'=>'Sencha ExtJS 6 locale spanish',
                 'path'=>'/vendor/sencha/6.0.1/classic/locale/locale-es.js',
+                'extraParams'=>'androidAsset=inject',
             ],
             [
                 'id'=>'extjs.601.modern.neptune',
@@ -56,12 +59,14 @@ class AssetsSenchaSeeder extends Seeder
                 'idAssetType'=>1,
                 'name'=>'Sencha ExtJS 6 theme classic triton',
                 'path'=>'/vendor/sencha/6.0.1/classic/theme-triton/theme-triton.js',
+                'extraParams'=>'androidAsset=inject',
             ],
             [
                 'id'=>'extjs.601.charts',
                 'idAssetType'=>1,
                 'name'=>'Sencha ExtJS 6 charts',
                 'path'=>'/vendor/sencha/6.0.1/packages/charts/classic/charts.js',
+                'extraParams'=>'androidAsset=inject',
             ],
             [
                 'id'=>'extjs.601.modern.neptune.css',
@@ -81,7 +86,8 @@ class AssetsSenchaSeeder extends Seeder
                 'id'=>'extjs.601.charts.css',
                 'idAssetType'=>2,
                 'name'=>'Sencha ExtJS 6 charts css',
-                'path'=>'/vendor/sencha/6.0.1/packages/charts/classic/triton/resources/charts-all.css'
+                'path'=>'/vendor/sencha/6.0.1/packages/charts/classic/triton/resources/charts-all.css',
+                'extraParams'=>'androidAsset=inject',
             ],
         ]);
         
