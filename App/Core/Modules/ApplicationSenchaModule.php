@@ -19,7 +19,7 @@ class ApplicationSenchaModule extends Outbuildings
         return [
             'title'=>config('app.name'),
             'appId'=>'333333-3333-3333-333333333333',
-            'urlManifest'=>'manifest/',
+            'urlManifest'=>$baseUrl . '/manifest/',
             'imagePoweredBy'=>$this->asset('powerby.image'),
             'bootstrap'=>$this->view('sencha.bootstrap'),
         ];
