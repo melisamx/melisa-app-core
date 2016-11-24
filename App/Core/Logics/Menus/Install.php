@@ -3,7 +3,7 @@
 use App\Core\Repositories\MenusRepository;
 use App\Core\Repositories\MenusOptionsRepository;
 use App\Core\Repositories\OptionsRepository;
-use \Melisa\core\LogicBusiness;
+use Melisa\core\LogicBusiness;
 
 /**
  * 
