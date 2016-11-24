@@ -13,4 +13,11 @@ class MenusOptions extends Base
     
     public $timestamps = false;
     
+    public function translation($key = 'es') {
+        
+        return $this->hasMany('App\Core\Models\Translations', 'key', 'id')
+            ->where('translatations.idTranslationLanguaje', '=', $key);
+        
+    }
+    
 }

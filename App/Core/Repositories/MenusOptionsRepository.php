@@ -15,8 +15,8 @@ class MenusOptionsRepository extends Repository
         
     }
     
-    public function getByMenuKey($key) {
-        
+    public function getByMenuKey($key, $language = 'es') {
+                
         return $this->model
             ->join('menus as m', 'm.id', '=', 'menusOptions.idMenu')
             ->leftJoin('options as o', 'o.id', '=', 'menusOptions.idOption')
@@ -24,6 +24,12 @@ class MenusOptionsRepository extends Repository
             ->leftJoin('tasks as t', 't.id', '=', 'ot.idTask')
             ->leftJoin('modulesTasks as mt', 'mt.idTask', '=', 'ot.idTask')
             ->leftJoin('modules as mod', 'mod.id', '=', 'mt.idModule')
+            ->leftJoin('translations as tr', function($join) use ($language) {
+                
+                $join->on('tr.idTranslationLanguage', '=', \DB::raw("'". $language. "'"));
+                $join->on('tr.key', '=', 'o.key');
+                
+            })
             ->where('m.key', $key)
             ->orderBy('menusOptions.idOptionParent')
             ->orderBy('menusOptions.order')
@@ -32,7 +38,13 @@ class MenusOptionsRepository extends Repository
                 
                 'o.name as optionName',
                 'o.key as optionKey',
+                'o.text as optionText',
                 'o.isSubMenu as optionIsSubMenu',
+                'o.iconClassSmall as optionIconClassSmall',
+                'o.iconClassMedium as optionIconClassMedium',
+                'o.iconClassLarge as optionIconClassLarge',
+                
+                'tr.text as optionTextTranslation',
                 
                 't.id as taskId',
                 't.key as taskKey',
