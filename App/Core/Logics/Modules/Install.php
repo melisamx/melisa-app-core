@@ -2,10 +2,12 @@
 
 use Melisa\core\LogicBusiness;
 use App\Core\Repositories\ModulesRepository;
+use App\Core\Repositories\ModulesTasksRepository;
 use App\Core\Repositories\TasksRepository;
 use App\Core\Repositories\OptionsRepository;
 use App\Core\Repositories\OptionsTasksRepository;
 use App\Core\Repositories\MenusRepository;
+use App\Core\Logics\Menus\Install as MenusInstall;
 
 /**
  * 
@@ -19,16 +21,19 @@ class Install
     protected $modules;
     protected $tasks;
     protected $options;
-    public $makes = [
-        'menus'=>'App\Core\Logics\Menus\Install'
-    ];
+    protected $optionsTasks;
+    protected $modulesTasks;
+    protected $menus;
+    protected $menusInstall;
 
     public function __construct(
         ModulesRepository $modules,
         TasksRepository $tasks,
         OptionsRepository $options,
         OptionsTasksRepository $optionsTasks,
-        MenusRepository $menus
+        MenusRepository $menus,
+        MenusInstall $menusInstall,
+        ModulesTasksRepository $modulesTasks
     ) {
         
         $this->modules = $modules;
@@ -36,6 +41,8 @@ class Install
         $this->options = $options;
         $this->optionsTasks = $optionsTasks;
         $this->menus = $menus;
+        $this->menusInstall = $menusInstall;
+        $this->modulesTasks = $modulesTasks;
         
     }
     
@@ -64,6 +71,18 @@ class Install
             if( !$idTask) {
                 
                 $flag = false;
+                break;
+                
+            }
+            
+            $result = $this->createModuleTask($idModule, $idTask);
+            
+            if( !$result) {
+                
+                $flag = $this->error('Imposible create or update module task {m} - {t}', [
+                    'm'=>$configModule['name'],
+                    't'=>$configModule['task']['name']
+                ]);
                 break;
                 
             }
@@ -176,7 +195,7 @@ class Install
             $keyMenu=>$config['options']
         ];
         
-        return $this->make('menus')->init($buildMenu);
+        return $this->menusInstall->init($buildMenu);
         
     }
     
@@ -230,6 +249,23 @@ class Install
         }
         
         return $taskOption->id;
+        
+    }
+    
+    public function createModuleTask($idModule, $idTask) {
+        
+        $record = $this->modulesTasks->updateOrCreate([
+            'idModule'=>$idModule,
+            'idTask'=>$idTask,
+        ], []);
+        
+        if( !$record) {
+            
+            return false;
+            
+        }
+        
+        return $record->id;
         
     }
     

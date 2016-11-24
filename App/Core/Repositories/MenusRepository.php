@@ -14,5 +14,5 @@ class MenusRepository extends Repository
         return 'App\Core\Models\Menus';
         
     }
-    
+        
 }
