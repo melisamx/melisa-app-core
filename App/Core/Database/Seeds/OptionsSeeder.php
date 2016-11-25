@@ -10,7 +10,7 @@ class OptionsSeeder extends Seeder
     {
                 
         Options::updateOrCreate([
-            'key'=>'tbfill',
+            'key'=>'option.tbfill',
         ], [
             'name'=>'Sencha Component tbfill',
             'iconClassSmall'=>null,
