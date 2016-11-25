@@ -22,11 +22,19 @@ class Hierarchical
     
     public function generate($key) {
         
+        if( substr($key, 0, 4) !== 'menu') {
+            
+            $key = 'menu.' . $key;
+            
+        }
+        
         $menu = $this->menus->getByMenuKey($key);
         
-        if( !$menu) {
+        if( !count($menu)) {
             
-            return $menu;
+            return $this->error('Menu {k} no exist', [
+                'k'=>$key
+            ]);
             
         }
         
@@ -96,10 +104,12 @@ class Hierarchical
         
         if( !empty($option->moduleNameSpace)) {
             
-            $configOption ['nameSpace']= $option->moduleNameSpace;
-            $configOption ['url']= $option->moduleUrl;
-            $configOption ['active']= $option->moduleActive;
-            $configOption ['version']= $option->moduleVersion;
+            $configOption ['module']= [
+                'nameSpace'=>$option->moduleNameSpace,
+                'url'=>$option->moduleUrl,
+                'active'=>$option->moduleActive,
+                'version'=>$option->moduleVersion,
+            ];
             
         }
         
