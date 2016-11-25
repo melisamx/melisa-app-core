@@ -56,30 +56,47 @@ class Install
         
     }
     
-    public function findOptions($idMenu, $options) {
+    public function findOptions($idMenu, $options, $idOptionParent = null) {
         
         $flag = true;
+        $order = -1;
         
         $this->menusOptions->beginTransaction();
         
-        foreach($options as $i => $optionKey) {
-                
+        foreach($options as $i => $option) {
+            
+            $order ++;            
+            $optionKey = is_string($option) ? $option : $i;
+            
             $idOption = $this->getId($optionKey, 'options');
-
+            
             if( !$idOption) {
 
                 continue;
 
             }
-
-            if( $this->createMenuOption($idMenu, $idOption, $i)) {
+            
+            $idMenuOption = $this->createMenuOption($idMenu, $idOption, $order, $idOptionParent);
+            
+            if( !$idMenuOption) {
                 
-                continue;
+                $flag = false;
+                break;
 
             }
             
-            $flag = false;
-            break;
+            if( is_string($option)) {
+                
+                continue;
+                
+            }
+            
+            if( !$this->findOptions($idMenu, $option, $idMenuOption)) {
+                
+                $flag = false;
+                break;
+                
+            }
 
         }
         
@@ -99,19 +116,21 @@ class Install
     
     public function createMenuOption($idMenu, $idOption, $order = 0, $idOptionParent = null) {
         
-        if( !$this->menusOptions->updateOrCreate([
+        $menuOption = $this->menusOptions->updateOrCreate([
             'idMenu'=>$idMenu,
             'idOption'=>$idOption,
         ], [
             'idOptionParent'=>$idOptionParent,
             'order'=>$order,
-        ])) {
+        ]);
+        
+        if( !$menuOption) {
             
             return $this->error('Imposible create menu option');
             
         }
         
-        return true;
+        return $menuOption->id;
         
     }
     

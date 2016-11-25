@@ -2,18 +2,18 @@
 
 use Melisa\Laravel\Http\Controllers\Controller;
 use App\Core\Repositories\MenusOptionsRepository;
-use App\Core\Logics\Menus\Sencha;
+use App\Core\Logics\Menus\Hierarchical;
 
 class MenusController extends Controller
 {
     
-    public function get(MenusOptionsRepository $menus, $key) {
+    public function records(MenusOptionsRepository $menus, $key) {
         
         return response()->data($menus->getByMenuKey($key));
         
     }
     
-    public function sencha(Sencha $menus, $key) {
+    public function hierarchical(Hierarchical $menus, $key) {
         
         return response()->data($menus->generate($key));
         
