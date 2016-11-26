@@ -15,42 +15,42 @@ class ManifestSenchaModule extends Outbuildings
     public $js = [
         'classic'=>[
             'debug'=>[
-                'extjs.601.debug.js',
-                'extjs.601.classic.triton',
-                'extjs.601.locale.es',
+                'extjs.620.debug.js',
+                'extjs.620.classic.triton',
+                'extjs.620.locale.es',
             ],
             'nodebug'=>[
-                'extjs.601.js',
-                'extjs.601.classic.triton',
-                'extjs.601.locale.es',
+                'extjs.620.js',
+                'extjs.620.classic.triton',
+                'extjs.620.locale.es',
             ],
         ],
         'modern'=>[
             'debug'=>[
-                'extjs.601.modern.debug.js',
-                'extjs.601.modern.neptune',
-                'extjs.601.locale.es',
+                'extjs.620.modern.debug.js',
+                'extjs.620.modern.material',
+                'extjs.620.locale.es',
             ],
             'nodebug'=>[
-                'extjs.601.modern.js',
-                'extjs.601.modern.neptune',
-                'extjs.601.locale.es',
+                'extjs.620.modern.js',
+                'extjs.620.modern.material',
+                'extjs.620.locale.es',
             ],
         ]
     ];
     public $css = [
         'classic'=>[
-            'extjs.601.classic.triton.css'
+            'extjs.620.classic.triton.css'
         ],
         'modern'=>[
-            'extjs.601.modern.neptune.css'
+            'extjs.620.modern.material.css'
         ]
     ];
     public $jsAdd = [];
     public $cssAdd = [];
     public $pathsAdd = [];
     public $senchaPath = 'vendor/sencha/';
-    public $senchaVersion = '6.0.1';
+    public $senchaVersion = '6.2.0.981';
     public $senchaUxPath = '/src/ux';
     public $nsAdd = [];
     
