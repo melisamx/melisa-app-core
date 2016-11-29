@@ -22,7 +22,7 @@ class Asset
         
     }
     
-    public function get($keys = []) {
+    public function get($keys = [], $onlyUrl = false) {
         
         if( is_string($keys)) {
             
@@ -60,7 +60,13 @@ class Asset
             
         }
         
-        return count($assets) === 1 ? reset($assets)['url'] : $assets;
+        if( count($keys) === 1) {
+            
+            return $onlyUrl ? reset($assets)['url'] : reset($assets);
+            
+        }
+        
+        return $onlyUrl ? array_column($assets, 'url') : $assets;
         
     }
     
@@ -115,7 +121,9 @@ class Asset
 
         }
         
-        $loades [$key]= $asset->getAttributes() + [
+        $loades [$key]= [
+            'id'=>$asset->id,
+            'idAssetType'=>$asset->idAssetType,
             'url'=>$urlServer
         ];
 

@@ -167,7 +167,7 @@ class ManifestSenchaModule extends Outbuildings
         
         foreach($scripts as $js) {
             
-            $asset = $this->asset($js);
+            $asset = $this->asset($js, true);
             
             if( !$asset) {
                 
