@@ -76,7 +76,7 @@ class ManifestSenchaModule extends Outbuildings
             'version'=>'1.0.0.0',
             'id'=>'33333333-3333-3333-3333-333333333333',
             'cache'=>[
-                'enable'=>$this->debug ? false : true,
+                'enable'=>$this->debug ? false : false,
                 'deltas'=>'classic/deltas'
             ],
             'loader'=>[
