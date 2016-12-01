@@ -48,6 +48,18 @@ class AssetsCssSeeder extends Seeder
                 'path'=>'/vendor/roboto/style.css',
                 'extraParams'=>'androidAsset=inject',
             ],
+            [
+                'id'=>'bootstrap.reports',
+                'idAssetType'=>2,
+                'name'=>'Bootstrap for reports',
+                'path'=>'/vendor/bootstrap/release/reports/css/bootstrap.min.css',
+            ],
+            [
+                'id'=>'bootstrap.reports.print',
+                'idAssetType'=>2,
+                'name'=>'Bootstrap for reports and printers',
+                'path'=>'/vendor/bootstrap/release/reports/css/print.css',
+            ],
             
         ]);
         
