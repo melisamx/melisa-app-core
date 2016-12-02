@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="full-heigth">
     <head>
-        <title></title>
-        @include('partials.assets', array('assets'=>$assets['header']))
+        <title>{{ isset($pageTitle) ? $pageTitle : '' }}</title>
+        @if( isset($assets['header']))
+            @include('partials.assets', array('assets'=>$assets['header']))
+        @endif
         @yield('head')
     </head>
     
-    <body>
+    <body class="full-heigth">
         @yield('content')
+        @if( isset($assets['footer']))
+            @include('partials.assets', array('assets'=>$assets['footer']))
+        @endif
+        @yield('footer')
     </body>
 </html>

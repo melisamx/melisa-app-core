@@ -96,6 +96,12 @@ class Install
                 
             }
             
+            if( $idOption === true) {
+                
+                continue;
+                
+            }
+            
             $this->debug('Create or update task option {o} - {t}', [
                 'o'=>$configModule['option']['name'],
                 't'=>$configModule['task']['name']
@@ -210,7 +216,8 @@ class Install
             'url'=>$config['url'],
         ], [
             'description'=>$config['description'],
-            'nameSpace'=>$config['nameSpace'],
+            'nameSpace'=>isset($config['nameSpace']) ? 
+                $config['nameSpace'] : null,
             'version'=>isset($config['version']) ? 
                 $config['version'] : '1.0.0',
             'iconClassSmall'=>isset($config['iconClassSmall']) ? 
@@ -305,6 +312,13 @@ class Install
     }
         
     public function createOption($urlModule, &$config) {
+        
+        if( is_null($config)) {
+            
+            $this->debug('Option no defined');
+            return true;
+            
+        }
         
         $this->debug('Create or update option {o}', [
             'o'=>$config['name']
