@@ -8,7 +8,16 @@ class SenchaController extends Controller
     
     public function file(File $view, $version, $path) {
         
-        return $view->render($path);
+        /* 30 dias */
+        $expireTime = 2592000;
+        $expiration = time() + $expireTime;
+        
+        return response($view->render($path))
+            ->withHeaders([
+                'Content-Type'=>'application/javascript',
+                'Expires'=>gmdate('D, d M Y H:i:s', $expiration) . ' GMT',
+                'Cache-control'=>' max-age=' . $expireTime . ', public'
+            ]);
         
     }
     
