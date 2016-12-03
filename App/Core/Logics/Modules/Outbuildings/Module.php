@@ -1,7 +1,7 @@
 <?php namespace App\Core\Logics\Modules\Outbuildings;
 
 use Melisa\core\LogicBusiness;
-use App\Core\Models\Modules;
+use App\Core\Repositories\ModulesRepository;
 
 /**
  * 
@@ -13,14 +13,16 @@ class Module
     use LogicBusiness;
     
     protected $modules;
+    protected $urlServer;
 
-    public function __construct(Modules $modules) {
+    public function __construct(ModulesRepository $modules) {
         
         $this->modules = $modules;
+        $this->urlServer = config('app.url');
         
     }
     
-    public function get($keys = []) {
+    public function get($keys = [], $onlyUrl = true) {
         
         if( is_string($keys)) {
             
@@ -58,7 +60,13 @@ class Module
             
         }
         
-        return $modules[$key];
+        if( count($keys) === 1) {
+            
+            return $onlyUrl ? reset($modules)['url'] : reset($modules);
+            
+        }
+        
+        return $onlyUrl ? array_column($modules, 'url') : $modules;
         
     }
     
@@ -72,7 +80,7 @@ class Module
             
         }
         
-        $module = $this->modules->find($key);
+        $module = $this->modules->getByKeyTask($key);
         
         if( $module === false) {
 
@@ -80,9 +88,14 @@ class Module
 
         }
         
-        $loades [$key]= $module;
+        $config = [
+            'url'=>$module->url,
+            'nameSpace'=>$module->nameSpace
+        ];
+        
+        $loades [$key]= $config;
 
-        return $module;
+        return $config;
         
     }
     

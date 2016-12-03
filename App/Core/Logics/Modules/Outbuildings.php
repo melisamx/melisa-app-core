@@ -48,7 +48,9 @@ class Outbuildings
             
         } catch (\ReflectionException $ex) {
             
-            $class = $this->error('No support function');
+            $class = $this->error('No support function: {m}', [
+                'm'=>$ex->getMessage()
+            ]);
             
         }
         
