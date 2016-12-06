@@ -1,6 +1,7 @@
 <?php namespace App\Core\Logics\Modules;
 
 use Melisa\core\LogicBusiness;
+use App\Core\Events\ModuleAccessEvent;
 
 /**
  * 
@@ -12,6 +13,7 @@ class Outbuildings
     use LogicBusiness;
     
     public $debug = true;
+    public $event = null;
     
     public function render() {
         
@@ -25,7 +27,36 @@ class Outbuildings
             
         }
         
+        if( is_null($this->event)) {
+            
+            return $dataDictionary;
+            
+        }
+        
+        if( !$this->proccessEvent()) {
+            
+            return [
+                'success'=>false,
+                'errors'=>melisa('msg')->get()
+            ];
+            
+        }
+        
         return $dataDictionary;
+        
+    }
+    
+    public function proccessEvent() {
+        
+        $result = event(new ModuleAccessEvent($this->event));
+        
+        if( in_array(false, $result)) {
+            
+            return false;
+            
+        }
+        
+        return true;
         
     }
     

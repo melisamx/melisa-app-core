@@ -7,6 +7,7 @@ use App\Core\Repositories\TasksRepository;
 use App\Core\Repositories\OptionsRepository;
 use App\Core\Repositories\OptionsTasksRepository;
 use App\Core\Repositories\MenusRepository;
+use App\Core\Repositories\EventsRepository;
 use App\Core\Logics\Menus\Install as MenusInstall;
 
 /**
@@ -25,6 +26,7 @@ class Install
     protected $modulesTasks;
     protected $menus;
     protected $menusInstall;
+    protected $events;
 
     public function __construct(
         ModulesRepository $modules,
@@ -33,7 +35,8 @@ class Install
         OptionsTasksRepository $optionsTasks,
         MenusRepository $menus,
         MenusInstall $menusInstall,
-        ModulesTasksRepository $modulesTasks
+        ModulesTasksRepository $modulesTasks,
+        EventsRepository $events
     ) {
         
         $this->modules = $modules;
@@ -43,6 +46,7 @@ class Install
         $this->menus = $menus;
         $this->menusInstall = $menusInstall;
         $this->modulesTasks = $modulesTasks;
+        $this->events = $events;
         
     }
     
@@ -54,7 +58,7 @@ class Install
         foreach($configsModules as $configModule) {
             
             $configModule = melisa('array')->mergeDefault($configModule, [
-                'menu'=>[]
+                'menu'=>[],
             ]);
             
             $idModule = $this->createModule($configModule);
@@ -84,6 +88,12 @@ class Install
                     't'=>$configModule['task']['name']
                 ]);
                 break;
+                
+            }
+            
+            if ( isset($configModule['event'])) {
+                
+                $idEvent = $this->createEvent($configModule['event']);
                 
             }
             
@@ -256,6 +266,29 @@ class Install
         }
         
         return $taskOption->id;
+        
+    }
+    
+    public function createEvent(&$config) {
+        
+        $this->debug('Create or update event {e}', [
+            'e'=>$config['key']
+        ]);
+        
+        $record = $this->events->updateOrCreate([
+            'key'=>$config['key'],
+        ], [
+            'description'=>$config['description'],
+            'isSystem'=>isset($config['isSystem']) ? $config['isSystem'] : false,
+        ]);
+        
+        if( !$record) {
+            
+            return false;
+            
+        }
+        
+        return $record->id;
         
     }
     

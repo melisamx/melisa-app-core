@@ -82,7 +82,7 @@ class Module
         
         $module = $this->modules->getByKeyTask($key);
         
-        if( $module === false) {
+        if( $module === false or is_null($module)) {
 
             return false;
 

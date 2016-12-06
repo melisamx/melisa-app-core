@@ -12,8 +12,7 @@ class AssetsSenchaSeeder extends Seeder
     {
         
         $this->UpdateOrCreate('App\Core\Models\Assets', [
-            [
-                
+            [                
                 'find'=>[
                     'id'=>'extjs.601.js',
                 ],

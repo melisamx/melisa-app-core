@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
         $this->call(AssetsSeeder::class);
         $this->call(PackageAssetsSeeder::class);
         $this->call(TranslationsLanguagesSeeder::class);
+        $this->call(BinnacleStatusSeeder::class);
+        $this->call(BinnacleListenersStatusSeeder::class);
         
     }
     
