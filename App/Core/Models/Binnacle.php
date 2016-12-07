@@ -12,4 +12,10 @@ class Binnacle extends BaseUuid
         'data'
     ];
     
+    public function event() {
+        
+        return $this->hasOne('App\Core\Models\Events', 'id', 'idEvent');
+        
+    }
+    
 }

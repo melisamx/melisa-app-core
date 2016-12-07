@@ -70,7 +70,7 @@ class RegisterEvent
         
         $this->binnacle->commit();
         
-        \Redis::publish('binnacle.added', json_encode([
+        \Redis::publish('new.job', json_encode([
             'urlRun'=>config('app.url') . 'events.php/api/v1/binnacle/process',
             'dateRun'=>time() * 1000,
             'postData'=>[
