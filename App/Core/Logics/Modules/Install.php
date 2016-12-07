@@ -8,6 +8,7 @@ use App\Core\Repositories\OptionsRepository;
 use App\Core\Repositories\OptionsTasksRepository;
 use App\Core\Repositories\MenusRepository;
 use App\Core\Repositories\EventsRepository;
+use App\Core\Repositories\ListenersRepository;
 use App\Core\Logics\Menus\Install as MenusInstall;
 
 /**
@@ -27,6 +28,7 @@ class Install
     protected $menus;
     protected $menusInstall;
     protected $events;
+    protected $listeners;
 
     public function __construct(
         ModulesRepository $modules,
@@ -36,7 +38,8 @@ class Install
         MenusRepository $menus,
         MenusInstall $menusInstall,
         ModulesTasksRepository $modulesTasks,
-        EventsRepository $events
+        EventsRepository $events,
+        ListenersRepository $listeners
     ) {
         
         $this->modules = $modules;
@@ -47,6 +50,7 @@ class Install
         $this->menusInstall = $menusInstall;
         $this->modulesTasks = $modulesTasks;
         $this->events = $events;
+        $this->listeners = $listeners;
         
     }
     
@@ -94,6 +98,12 @@ class Install
             if ( isset($configModule['event'])) {
                 
                 $idEvent = $this->createEvent($configModule['event']);
+                
+            }
+            
+            if ( isset($configModule['listener'])) {
+                
+                $idListener = $this->createListener($idModule, $configModule['listener']);
                 
             }
             
@@ -266,6 +276,55 @@ class Install
         }
         
         return $taskOption->id;
+        
+    }
+    
+    public function createListener($idModule, &$keyListener) {
+        
+        $this->debug('Create or update listener {l}', [
+            'l'=>$keyListener
+        ]);
+        
+        if( is_string($keyListener)) {
+            
+            $keyListener = [
+                'event'=>$keyListener,
+                'active'=>true,
+            ];
+            
+        }
+        
+        $event = $this->events->findBy('key', $keyListener['event']);
+        
+        if( !$event) {
+            
+            return false;
+            
+        }
+        
+        if( is_null($event)) {
+            
+            $this->debug('No exist event {e} ignore install listener', [
+                'e'=>$keyListener['event']
+            ]);
+            return true;
+            
+        }
+        
+        $listener = $this->listeners->updateOrCreate([
+            'idEvent'=>$event->id,
+            'idModule'=>$idModule,
+        ], [
+            'active'=>$keyListener['active']
+        ]);
+        
+        if( !$listener) {
+            
+            return false;
+            
+        }
+        
+        return $listener->id;
         
     }
     

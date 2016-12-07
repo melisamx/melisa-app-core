@@ -1,12 +1,12 @@
 <?php namespace App\Core\Models;
 
-use Melisa\Laravel\Models\BaseUuid;
+use Melisa\Laravel\Models\Base;
 
-class Listeners extends BaseUuid
+class Listeners extends Base
 {
     
     protected $fillable = [
-        'idEvent', 'idModule', 'idCreator', 'active'
+        'idEvent', 'idModule', 'active'
     ];
     
 }
