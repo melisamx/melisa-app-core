@@ -94,7 +94,7 @@ class AssetsJsSeeder extends Seeder
                     'name'=>'Viewer page PDF in canvas',
                     'path'=>'/vendor/melisa/release/render-canvas.js'
                 ]
-            ],            
+            ],
         ]);
         
     }
