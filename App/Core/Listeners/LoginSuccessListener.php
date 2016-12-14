@@ -4,6 +4,7 @@ use Illuminate\Auth\Events\Login;
 use App\Core\Logics\Binnacle\RegisterEvent;
 use Melisa\Laravel\Contracts\EventBinnacle;
 use App\Core\Logics\Identities\IdentitySession;
+use Melisa\core\LogicBusiness;
 
 /**
  * 
@@ -12,6 +13,7 @@ use App\Core\Logics\Identities\IdentitySession;
  */
 class LoginSuccessListener implements EventBinnacle
 {
+    use LogicBusiness;
     
     protected $key = 'event.guest.user.login';
     protected $data = null;
@@ -42,6 +44,14 @@ class LoginSuccessListener implements EventBinnacle
     {
         
         $request = request();
+        
+        if ($request->is('api/*')) {
+            
+            $this->debug('ignore register login, request in api');
+            return true;
+            
+        }
+        
         $this->data = [
             'idUser'=>$login->user->id,
             'idIdentity'=>$this->identity->init($login->user->id),
