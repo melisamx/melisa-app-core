@@ -3,7 +3,6 @@
 use App\Core\Repositories\ModulesRepository;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Psr7;
 
 /**
  * 
@@ -63,12 +62,36 @@ class Run
         $client = new \GuzzleHttp\Client();
         
         $data = json_decode($data);
-        $urlServer = config('app.url');        
+        $appUrl = config('app.url');
+        
+        if( !melisa('string')->endsWith($appUrl, '/')) {
+            
+            $appUrl .= '/';
+            
+        }
+        
+        /* request external */
+        if( melisa('string')->startsWith($url, '//')) {
+            
+            $appUrl = '';
+            
+        } else if( melisa('string')->startsWith($url, '/')) {
+            
+            $url = substr($url, 1);
+            
+        }
+        
         $flag = true;
+        
+        $this->info('run module {s}{a} with the user {u}', [
+            's'=>$appUrl,
+            'a'=>$url,
+            'u'=>$this->user
+        ]);
         
         try {
             
-            $result = $client->request('POST', $urlServer . $url, [
+            $result = $client->request('POST', $appUrl . $url, [
                 'auth'=>[ $this->user, $this->pass ],
                 'form_params'=>$data
             ]);

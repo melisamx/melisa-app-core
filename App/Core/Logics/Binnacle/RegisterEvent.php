@@ -33,15 +33,15 @@ class RegisterEvent
     
     public function init(EventBinnacle &$e) {
         
-        $event = $this->getEvent($e->getKey());
+        $events = $this->getEvents($e->getKey());
         
-        if( $event === false) {
+        if( $events === false) {
             
             return false;
             
         }
         
-        if( is_null($event)) {
+        if( !count($events)) {
             
             $this->debug('The event {e} not is defined, ignore register in binnacle', [
                 'e'=>$e->getKey()
@@ -60,9 +60,9 @@ class RegisterEvent
         
         $this->binnacle->beginTransaction();
         
-        $idBinnacle = $this->createBinnacle($e, $event, $idCreator);
+        $idBinnacles = $this->createBinnacle($e, $events, $idCreator);
         
-        if( !$idBinnacle) {
+        if( !$idBinnacles) {
             
             return $this->binnacle->rollBack();
             
@@ -70,22 +70,37 @@ class RegisterEvent
         
         $this->binnacle->commit();
         
-        \Redis::publish('new.job', json_encode([
-            'urlRun'=>config('app.url') . 'events.php/api/v1/binnacle/process',
-            'dateRun'=>time() * 1000,
-            'postData'=>[
-                'idBinnacle'=>$idBinnacle,
-                'idCreator'=>$idCreator,
-                'idEvent'=>$event->id,
-                'event'=>$e->getKey()
-            ],
-        ]));
+        $this->publishEvent($idBinnacles);
         
-        return $idBinnacle;
+        return $idBinnacles;
         
     }
     
-    public function createBinnacle(&$e, &$event, $idCreator) {
+    public function publishEvent(&$idBinnacles) {
+        
+        $appUrl = config('app.url');
+        
+        if( !melisa('string')->endsWith($appUrl, '/')) {
+            
+            $appUrl .= '/';
+            
+        }
+        
+        foreach($idBinnacles as $idBinnacle) {
+            
+            \Redis::publish('new.job', json_encode([
+                'urlRun'=>$appUrl . 'events.php/api/v1/binnacle/process',
+                'dateRun'=>time() * 1000,
+                'postData'=>[
+                    'idBinnacle'=>$idBinnacle,
+                ],
+            ]));
+            
+        }
+        
+    }
+    
+    public function createBinnacle(&$e, &$events, $idCreator) {
         
         $data = $e->getData();
         
@@ -95,13 +110,31 @@ class RegisterEvent
             
         }
         
-        return $this->binnacle->create([
-            'idBinnacleStatus'=>1,
-            'idEvent'=>$event->id,
-            'idCreator'=>$idCreator,
-            'isIndicted'=>false,
-            'data'=>$data
-        ]);
+        $ids = [];
+        $flag = true;
+        
+        foreach($events as $event) {
+            
+            $result = $this->binnacle->create([
+                'idBinnacleStatus'=>1,
+                'idEvent'=>$event->id,
+                'idCreator'=>$idCreator,
+                'isIndicted'=>false,
+                'data'=>$data
+            ]);
+            
+            if( !$result) {
+                
+                $flag = false;
+                break;
+                
+            }            
+            
+            $ids []= $result;
+            
+        }
+        
+        return $flag ? $ids : false;
         
     }
     
@@ -118,9 +151,29 @@ class RegisterEvent
         
     }
     
-    public function getEvent($key) {
+    public function getEvents($key) {
         
-        return $this->events->findBy('key', $key);
+        $wheres = [
+            [
+                'key', $key
+            ]
+        ];
+        
+        $keysPart = explode('.', $key);
+        
+        foreach($keysPart as $i => $keyPart) {
+            
+            array_pop($keysPart);
+            
+            $wheres []= [
+                'key', implode('.', $keysPart) . '.*'
+            ];
+            
+        }
+        
+        array_pop($wheres);
+        
+        return $this->events->findWhere($wheres, ['*'], true);
         
     }
     
