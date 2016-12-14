@@ -6,8 +6,8 @@ class Redirects extends BaseUuid
 {
     
     protected $fillable = [
-        'idApplication', 'idIdentityCreator', 'name', 'active', 'description',
-        'path', 'idIdentityModification'
+        'idApplication', 'idIdentityCreated', 'name', 'active', 'description',
+        'path', 'idIdentityUpdated', 'updatedAt'
     ];
     
     public function application()

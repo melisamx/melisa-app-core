@@ -118,8 +118,8 @@ class RegisterEvent
             $result = $this->binnacle->create([
                 'idBinnacleStatus'=>1,
                 'idEvent'=>$event->id,
-                'idCreator'=>$idCreator,
-                'isIndicted'=>false,
+                'idIdentityCreated'=>$idCreator,
+                'isProcessed'=>false,
                 'data'=>$data
             ]);
             

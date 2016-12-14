@@ -8,7 +8,8 @@ class BinnacleListeners extends BaseUuid
     protected $table = 'binnacleListeners';
     
     protected $fillable = [
-        'idBinnacleListenerStatus', 'idBinnacle', 'idListener'
+        'idBinnacleListenerStatus', 'idBinnacle', 'idListener', 'idIdentityCreated',
+        'idIdentityUpdated'
     ];
     
     public function binnacle() {

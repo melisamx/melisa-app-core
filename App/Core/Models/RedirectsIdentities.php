@@ -8,8 +8,8 @@ class RedirectsIdentities extends BaseUuid
     protected $table = 'redirectsIdentities';
     
     protected $fillable = [
-        'idRedirect', 'idIdentityCreator', 'idIdentityRedirect', 'active', 
-        'idIdentityModification'
+        'idRedirect', 'idIdentityCreated', 'idIdentityRedirect', 'active', 
+        'idIdentityUpdated', 'updatedAt'
     ];
     
 }
