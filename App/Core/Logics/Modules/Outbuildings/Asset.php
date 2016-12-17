@@ -1,8 +1,8 @@
 <?php namespace App\Core\Logics\Modules\Outbuildings;
 
 use Melisa\core\LogicBusiness;
-use Melisa\Laravel\Database\FindApplication;
 use App\Core\Repositories\AssetsRepository;
+use App\Core\Repositories\ApplicationsRepository;
 
 /**
  * 
@@ -11,12 +11,12 @@ use App\Core\Repositories\AssetsRepository;
  */
 class Asset
 {
-    use LogicBusiness, FindApplication;
+    use LogicBusiness;
     
-    public function __construct(AssetsRepository $assets) {
+    public function __construct(AssetsRepository $assets, ApplicationsRepository $application) {
         
         $this->assetsrepository = $assets;
-        $this->application = $this->findApplication(config('app.keyapp'));
+        $this->application = $application->findBy('key', config('app.keyapp'));
         $this->nocache = config('app.env') === 'local' ? time() : '';
         $this->urlServer = config('app.url');
         
@@ -94,7 +94,7 @@ class Asset
             ];
 
         }
-
+        
         $params = [
             'appVersion'=>$this->application->version,
             'version'=>$asset->version,
