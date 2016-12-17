@@ -117,17 +117,21 @@ class ManifestSenchaModule extends Outbuildings
         ]);
         
         $urlServer = config('app.url');
+        
+        if( !melisa('string')->endsWith($urlServer, '/')) {
+            
+            $urlServer .= '/';
+            
+        }
+        
         $nameSpaces = [
-            'Ext.ux'=>sprintf('%s/%s%s%s', 
-                $urlServer,
-                $this->senchaPath,
-                $this->senchaVersion,
-                $this->senchaUxPath)
+            'Ext.ux'=>$urlServer . $this->senchaPath . $this->senchaVersion .
+                $this->senchaUxPath
         ];
         
         foreach($apps as $app) {
             
-            $nameSpaces [$app->nameSpace]= sprintf('%s/%s.php/sencha/%s', 
+            $nameSpaces [$app->nameSpace]= sprintf('%s%s.php/sencha/%s', 
                 $urlServer, 
                 $app->key,
                 $app->version

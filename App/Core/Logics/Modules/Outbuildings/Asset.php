@@ -20,6 +20,12 @@ class Asset
         $this->nocache = config('app.env') === 'local' ? time() : '';
         $this->urlServer = config('app.url');
         
+        if( !melisa('string')->endsWith($this->urlServer, '/')) {
+            
+            $this->urlServer .= '/';
+            
+        }
+        
     }
     
     public function get($keys = [], $onlyUrl = false) {
@@ -108,9 +114,20 @@ class Asset
             $queryString .= '&' . $asset->extraParams;
 
         }
-
-        $urlServer = $this->urlServer . $asset->path; 
-
+        
+        
+        
+        /* request external */
+        if( melisa('string')->startsWith($asset->path, '//')) {
+            
+            $urlServer = $asset->path;
+            
+        } else if( melisa('string')->startsWith($asset->path, '/')) {
+            
+            $urlServer = $this->urlServer .substr($asset->path, 1);
+            
+        }
+        
         if (strpos($urlServer, '?')) {
 
             $urlServer .= '&' . $queryString;

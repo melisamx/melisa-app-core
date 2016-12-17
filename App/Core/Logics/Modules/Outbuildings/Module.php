@@ -20,6 +20,12 @@ class Module
         $this->modules = $modules;
         $this->urlServer = config('app.url');
         
+        if( !melisa('string')->endsWith($this->urlServer, '/')) {
+            
+            $this->urlServer .= '/';
+            
+        }
+        
     }
     
     public function get($keys = [], $onlyUrl = true) {
