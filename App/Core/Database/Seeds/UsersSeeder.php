@@ -1,21 +1,19 @@
 <?php namespace App\Core\Database\Seeds;
 
-use Illuminate\Database\Seeder;
-use Melisa\Laravel\Database\IdSeeder;
-use App\Core\Models\User;
+use Melisa\Laravel\Database\InstallSeeder;
 
-class UsersSeeder extends Seeder
-{    
-    use IdSeeder;
+/**
+ * 
+ * 
+ * @author Luis Josafat Heredia Contreras
+ */
+class UsersSeeder extends InstallSeeder
+{
     
     public function run()
     {
                 
-        User::firstOrCreate([
-            'id'=>$this->getId()
-        ], [
-            'name'=>'developer',
-            'password'=>bcrypt('Dlemdo30$'),
+        $this->installUser('developer', 'Dlemdo30$', [
             'email'=>'developer@melisa.mx',
             'isGod'=>true
         ]);

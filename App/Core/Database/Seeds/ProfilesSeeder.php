@@ -1,19 +1,19 @@
 <?php namespace App\Core\Database\Seeds;
 
-use Illuminate\Database\Seeder;
-use Melisa\Laravel\Database\IdSeeder;
-use App\Core\Models\Profiles;
+use Melisa\Laravel\Database\InstallSeeder;
 
-class ProfilesSeeder extends Seeder
-{    
-    use IdSeeder;
+/**
+ * 
+ * 
+ * @author Luis Josafat Heredia Contreras
+ */
+class ProfilesSeeder extends InstallSeeder
+{
     
     public function run()
     {
                 
-        Profiles::firstOrCreate([
-            'key'=>'system',
-        ], [
+        $this->installProfile('system', [
             'name'=>'System',
             'isSystem'=>true,
             'icon'=>'fa fa-superpowers',

@@ -2,6 +2,11 @@
 
 use Illuminate\Database\Seeder;
 
+/**
+ * 
+ * 
+ * @author Luis Josafat Heredia Contreras
+ */
 class DatabaseSeeder extends Seeder
 {
     

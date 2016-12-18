@@ -1,17 +1,19 @@
 <?php namespace App\Core\Database\Seeds;
 
-use Illuminate\Database\Seeder;
-use App\Core\Models\TranslationsLanguages;
+use Melisa\Laravel\Database\InstallSeeder;
 
-class TranslationsLanguagesSeeder extends Seeder
+/**
+ * 
+ * 
+ * @author Luis Josafat Heredia Contreras
+ */
+class TranslationsLanguagesSeeder extends InstallSeeder
 {
     
     public function run()
     {
                 
-        TranslationsLanguages::updateOrCreate([
-            'id'=>'es'
-        ], [
+        $this->installTranslationLanguage('es', [
             'name'=>'Spanish',
         ]);
         

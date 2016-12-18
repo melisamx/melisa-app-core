@@ -1,55 +1,38 @@
 <?php namespace App\Core\Database\Seeds;
 
-use Illuminate\Database\Seeder;
-use Melisa\Laravel\Database\UpdateOrCreate;
+use Melisa\Laravel\Database\InstallSeeder;
 
-class BinnacleListenersStatusSeeder extends Seeder
+/**
+ * 
+ * 
+ * @author Luis Josafat Heredia Contreras
+ */
+class BinnacleListenersStatusSeeder extends InstallSeeder
 {
-    use UpdateOrCreate;
     
     public function run()
     {
                 
-        $this->UpdateOrCreate('App\Core\Models\BinnacleListenersStatus', [
+        $this->updateOrCreate('App\Core\Models\BinnacleListenersStatus', [
             [
-                'find'=>[
-                    'id'=>1,
-                ],
-                'values'=>[
-                    'name'=>'Nuevo',
-                ]
+                'id'=>1,
+                'name'=>'Nuevo'
             ],
             [
-                'find'=>[
-                    'id'=>2,
-                ],
-                'values'=>[
-                    'name'=>'Procesando',
-                ]
+                'id'=>2,
+                'name'=>'Procesando'
             ],
             [
-                'find'=>[
-                    'id'=>3,
-                ],
-                'values'=>[
-                    'name'=>'Procesado',
-                ]
+                'id'=>3,
+                'name'=>'Procesado'
             ],
             [
-                'find'=>[
-                    'id'=>4,
-                ],
-                'values'=>[
-                    'name'=>'Cancelado',
-                ]
+                'id'=>4,
+                'name'=>'Cancelado'
             ],
             [
-                'find'=>[
-                    'id'=>5,
-                ],
-                'values'=>[
-                    'name'=>'Procesado con errores',
-                ]
+                'id'=>5,
+                'name'=>'Procesado con errores'
             ],
         ]);
         

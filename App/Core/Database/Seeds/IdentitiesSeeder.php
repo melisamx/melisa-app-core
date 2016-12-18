@@ -1,21 +1,24 @@
 <?php namespace App\Core\Database\Seeds;
 
-use Illuminate\Database\Seeder;
-use Melisa\Laravel\Database\CreateIdentity;
+use Melisa\Laravel\Database\InstallSeeder;
 
 /**
  * 
- *
+ * 
  * @author Luis Josafat Heredia Contreras
  */
-class IdentitiesSeeder extends Seeder
-{    
-    use CreateIdentity;
+class IdentitiesSeeder extends InstallSeeder
+{
     
     public function run()
     {
-                
-        $this->createIdentity();
+        
+        $this->installIdentity('Developer', 'system', 'developer', [
+            'display'=>'Developer',
+            'active'=>true,
+            'isDefault'=>true,
+            'isSystem'=>true
+        ]);
         
     }
     

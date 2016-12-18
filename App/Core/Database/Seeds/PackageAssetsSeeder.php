@@ -3,6 +3,11 @@
 use Illuminate\Database\Seeder;
 use Melisa\Laravel\Database\FirstOrCreate;
 
+/**
+ * 
+ * 
+ * @author Luis Josafat Heredia Contreras
+ */
 class PackageAssetsSeeder extends Seeder
 {
     

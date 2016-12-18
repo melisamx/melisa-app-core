@@ -1,17 +1,19 @@
 <?php namespace App\Core\Database\Seeds;
 
-use Illuminate\Database\Seeder;
-use Melisa\Laravel\Database\FirstOrCreate;
+use Melisa\Laravel\Database\InstallSeeder;
 
-class PackageAssetsItemsSeeder extends Seeder
+/**
+ * 
+ * 
+ * @author Luis Josafat Heredia Contreras
+ */
+class PackageAssetsItemsSeeder extends InstallSeeder
 {
-    
-    use FirstOrCreate;
     
     public function run()
     {
         
-        $this->firstOrCreate('App\Core\Models\PackageAssetsItems', [
+        $this->updateOrCreate('App\Core\Models\PackageAssetsItems', [
             [
                 'idPackageAsset'=>'sencha.app',
                 'idAsset'=>'extjs.601.js',

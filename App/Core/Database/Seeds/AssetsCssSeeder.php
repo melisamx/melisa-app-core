@@ -1,13 +1,14 @@
 <?php namespace App\Core\Database\Seeds;
 
-use Illuminate\Database\Seeder;
-use Melisa\Laravel\Database\InstallAsset;
-use Melisa\Laravel\Database\UpdateOrCreate;
+use Melisa\Laravel\Database\InstallSeeder;
 
-class AssetsCssSeeder extends Seeder
+/**
+ * 
+ * 
+ * @author Luis Josafat Heredia Contreras
+ */
+class AssetsCssSeeder extends InstallSeeder
 {
-    
-    use InstallAsset, UpdateOrCreate;
     
     public function run()
     {

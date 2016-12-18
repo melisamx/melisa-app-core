@@ -1,25 +1,23 @@
 <?php namespace App\Core\Database\Seeds;
 
-use Illuminate\Database\Seeder;
-use Melisa\Laravel\Database\FirstOrCreate;
+use Melisa\Laravel\Database\InstallSeeder;
 
-class AssetsSeeder extends Seeder
+/**
+ * 
+ * 
+ * @author Luis Josafat Heredia Contreras
+ */
+class AssetsSeeder extends InstallSeeder
 {
-    
-    use FirstOrCreate;
     
     public function run()
     {
         
         $this->call(AssetsTypeSeeder::class);
         
-        $this->firstOrCreate('App\Core\Models\Assets', [
-            [
-                'id'=>'powerby.image',
-                'idAssetType'=>4,
-                'name'=>'Image PowerBy',
-                'path'=>'/assets/images/powerby.png',
-            ],
+        $this->installAssetImage('powerby.image', [
+            'name'=>'Image PowerBy',
+            'path'=>'/assets/images/powerby.png'
         ]);
         
         $this->call(AssetsSenchaSeeder::class);

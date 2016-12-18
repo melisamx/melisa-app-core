@@ -1,17 +1,19 @@
 <?php namespace App\Core\Database\Seeds;
 
-use Illuminate\Database\Seeder;
-use App\Core\Models\Options;
+use Melisa\Laravel\Database\InstallSeeder;
 
-class OptionsSeeder extends Seeder
+/**
+ * 
+ * 
+ * @author Luis Josafat Heredia Contreras
+ */
+class OptionsSeeder extends InstallSeeder
 {
     
     public function run()
     {
                 
-        Options::updateOrCreate([
-            'key'=>'option.tbfill',
-        ], [
+        $this->installOption('option.tbfill', [
             'name'=>'Sencha Component tbfill',
             'iconClassSmall'=>null,
             'iconClassMedium'=>null,

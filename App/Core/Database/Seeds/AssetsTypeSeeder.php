@@ -1,17 +1,19 @@
 <?php namespace App\Core\Database\Seeds;
 
-use Illuminate\Database\Seeder;
-use Melisa\Laravel\Database\FirstOrCreate;
+use Melisa\Laravel\Database\InstallSeeder;
 
-class AssetsTypeSeeder extends Seeder
+/**
+ * 
+ * 
+ * @author Luis Josafat Heredia Contreras
+ */
+class AssetsTypeSeeder extends InstallSeeder
 {
-    
-    use FirstOrCreate;
     
     public function run()
     {
         
-        $this->firstOrCreate('App\Core\Models\AssetsType', [
+        $this->updateOrCreate('App\Core\Models\AssetsType', [
             [
                 'id'=>1,
                 'name'=>'JavaScript',
