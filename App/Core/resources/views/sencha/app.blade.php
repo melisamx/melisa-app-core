@@ -1,4 +1,3 @@
-<?php  ?>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -63,7 +62,7 @@
                 
                 Ext.manifest = '{{ $urlManifest }}' + profile + '/?config';
                 
-            };            
+            };
         </script>    
         
         <script id="microloader" data-app="{{ $appId }}" type="text/javascript">
