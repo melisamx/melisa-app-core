@@ -7,12 +7,11 @@ use Melisa\Laravel\Models\BaseUuid;
  *
  * @author Luis Josafat Heredia Contreras
  */
-class Identities extends BaseUuid
+class Events extends BaseUuid
 {
     
     protected $fillable = [
-        'idProfile', 'display', 'displayEspecific', 'active', 'isSystem',
-        'idDefault',
+        'key', 'description', 'isSystem'
     ];
     
 }

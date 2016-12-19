@@ -1,0 +1,1 @@
+# Application Core - Contains reusable files by most applications

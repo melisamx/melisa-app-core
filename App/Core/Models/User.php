@@ -5,28 +5,25 @@ use Melisa\Laravel\Models\NoUpdateCreate;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * 
+ *
+ * @author Luis Josafat Heredia Contreras
+ */
 class User extends Authenticatable
 {
     use Notifiable, UuidForKey, NoUpdateCreate;
     
+    /* necesary orm autenticable and no extend melisa model base */
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
+    
     public $incrementing = FALSE;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name', 'email', 'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'rememberToken',
     ];
@@ -44,6 +41,13 @@ class User extends Authenticatable
     public function getRememberTokenName()
     {
         return 'rememberToken';
+    }
+    
+    public function usersIdentities()
+    {
+        
+        return $this->hasMany('App\Core\Models\UsersIdentities', 'idUser');
+        
     }
     
 }
