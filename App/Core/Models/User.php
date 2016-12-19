@@ -5,6 +5,11 @@ use Melisa\Laravel\Models\NoUpdateCreate;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * 
+ *
+ * @author Luis Josafat Heredia Contreras
+ */
 class User extends Authenticatable
 {
     use Notifiable, UuidForKey, NoUpdateCreate;

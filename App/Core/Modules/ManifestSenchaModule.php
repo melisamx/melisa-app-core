@@ -66,6 +66,10 @@ class ManifestSenchaModule extends Outbuildings
         
     }
     
+    /**
+     * Config basic in manifest sencha
+     * @return Array
+     */
     public function manifest() {
         
         return [
@@ -108,6 +112,10 @@ class ManifestSenchaModule extends Outbuildings
         
     }
     
+    /**
+     * Add NameSpace from other apps
+     * @return Array
+     */
     public function getPaths() {
         
         $apps = app(ApplicationsRepository::class)->all([

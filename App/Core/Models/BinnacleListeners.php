@@ -2,6 +2,11 @@
 
 use Melisa\Laravel\Models\BaseUuid;
 
+/**
+ * 
+ *
+ * @author Luis Josafat Heredia Contreras
+ */
 class BinnacleListeners extends BaseUuid
 {
     

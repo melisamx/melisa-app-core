@@ -2,6 +2,11 @@
 
 use Melisa\Laravel\Models\Base;
 
+/**
+ * 
+ *
+ * @author Luis Josafat Heredia Contreras
+ */
 class Listeners extends Base
 {
     

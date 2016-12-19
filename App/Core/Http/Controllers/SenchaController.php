@@ -3,6 +3,11 @@
 use Melisa\Laravel\Http\Controllers\Controller;
 use App\Core\Logics\Sencha\File;
 
+/**
+ * 
+ *
+ * @author Luis Josafat Heredia Contreras
+ */
 class SenchaController extends Controller
 {
     

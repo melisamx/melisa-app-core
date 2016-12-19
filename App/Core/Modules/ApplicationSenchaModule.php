@@ -14,8 +14,6 @@ class ApplicationSenchaModule extends Outbuildings
     
     public function dataDictionary() {
         
-        $baseUrl = basename(request()->getBaseUrl());
-        
         return [
             'title'=>config('app.name'),
             'appId'=>'333333-3333-3333-333333333333',

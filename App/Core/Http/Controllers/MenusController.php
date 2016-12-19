@@ -4,6 +4,11 @@ use Melisa\Laravel\Http\Controllers\Controller;
 use App\Core\Repositories\MenusOptionsRepository;
 use App\Core\Logics\Menus\Hierarchical;
 
+/**
+ * 
+ *
+ * @author Luis Josafat Heredia Contreras
+ */
 class MenusController extends Controller
 {
     

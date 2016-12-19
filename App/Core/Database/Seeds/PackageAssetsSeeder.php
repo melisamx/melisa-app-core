@@ -1,22 +1,19 @@
 <?php namespace App\Core\Database\Seeds;
 
-use Illuminate\Database\Seeder;
-use Melisa\Laravel\Database\FirstOrCreate;
+use Melisa\Laravel\Database\InstallSeeder;
 
 /**
  * 
  * 
  * @author Luis Josafat Heredia Contreras
  */
-class PackageAssetsSeeder extends Seeder
+class PackageAssetsSeeder extends InstallSeeder
 {
-    
-    use FirstOrCreate;
     
     public function run()
     {
         
-        $this->firstOrCreate('App\Core\Models\PackageAssets', [
+        $this->updateOrCreate('App\Core\Models\PackageAssets', [
             [
                 'id'=>'sencha.app',
                 'name'=>'Sencha Application',
