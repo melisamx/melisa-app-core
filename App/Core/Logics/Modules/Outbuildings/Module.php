@@ -96,7 +96,9 @@ class Module
         
         $config = [
             'url'=>$module->url,
-            'nameSpace'=>$module->nameSpace
+            'nameSpace'=>$module->nameSpace,
+            'version'=>$module->version,
+            'allowed'=>true
         ];
         
         $loades [$key]= $config;
