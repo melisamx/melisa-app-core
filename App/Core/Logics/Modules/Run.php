@@ -13,13 +13,15 @@ class Run
 {
     
     protected $modules;
-    private $user = 'robot.schedule@melisa.mx';
-    private $pass = 'sWeld#s02';
+    private $user;
+    private $pass;
     private $error;
 
     public function __construct(ModulesRepository $modules) {
         
         $this->modules = $modules;
+        $this->user = env('RUN_MODULE_USER', 'youruser');
+        $this->pass = env('RUN_MODULE_PASS', 'yourpass');
         
     }
     
