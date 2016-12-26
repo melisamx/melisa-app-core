@@ -20,6 +20,13 @@ class IdentitiesSeeder extends InstallSeeder
             'isSystem'=>true
         ]);
         
+        $this->installIdentity('Demo user', 'system', 'demo', [
+            'display'=>'Demo user',
+            'active'=>true,
+            'isDefault'=>true,
+            'isSystem'=>true
+        ]);
+        
     }
     
 }

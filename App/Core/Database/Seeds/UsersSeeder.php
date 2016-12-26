@@ -17,6 +17,10 @@ class UsersSeeder extends InstallSeeder
             'email'=>'developer@melisa.mx',
             'isGod'=>true
         ]);
+                
+        $this->installUser('demo', 'Godlemb03fmaj', [
+            'email'=>'demo@melisa.mx',
+        ]);
         
     }
     
