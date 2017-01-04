@@ -13,6 +13,7 @@ class IdentitySession
     use LogicBusiness;
     
     protected $identities;
+    public $a = 1;
 
     public function __construct(IdentitiesRepository $identities) {
         
