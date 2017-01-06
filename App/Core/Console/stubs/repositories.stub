@@ -11,7 +11,7 @@ class DummyClass extends Repository
     
     public function model() {
         
-        return 'DummyNamespace\DummyClass';
+        return 'DummyModelNameSpace\DummyClassModel';
         
     }
     

@@ -52,7 +52,8 @@ class RepositoriesGenerate extends GeneratorCommand
                 
             }
             
-            $flag = $this->create($tableName);
+            $this->table = $tableName;
+            $flag = $this->create($tableName . 'Repository');
             
             if( !$flag) {
                 
@@ -85,6 +86,28 @@ class RepositoriesGenerate extends GeneratorCommand
     protected function getDefaultNamespace($rootNamespace)
     {
         return $rootNamespace.'\Repositories';
+    }
+    
+    /**
+     * Replace the namespace for the given stub.
+     *
+     * @param  string  $stub
+     * @param  string  $name
+     * @return $this
+     */
+    protected function replaceNamespace(&$stub, $name)
+    {
+        
+        parent::replaceNamespace($stub, $name);
+        
+        $stub = str_replace(
+            'DummyClassModel', $this->table, $stub
+        );
+        $stub = str_replace(
+            'DummyModelNameSpace', app()->getNamespace() . '\Models', $stub
+        );
+        return $this;
+        
     }
     
 }
