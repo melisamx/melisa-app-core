@@ -101,7 +101,7 @@ class ModelsGenerate extends GeneratorCommand
             
             if( !empty($prefix)) {
                 
-                $tableName = substr($tableName, count($prefix));
+                $tableName = substr($tableName, strlen($prefix));
                 
             }
             
