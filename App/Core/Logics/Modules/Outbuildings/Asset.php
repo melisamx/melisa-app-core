@@ -115,8 +115,6 @@ class Asset
 
         }
         
-        
-        
         /* request external */
         if( melisa('string')->startsWith($asset->path, '//')) {
             
@@ -124,7 +122,11 @@ class Asset
             
         } else if( melisa('string')->startsWith($asset->path, '/')) {
             
-            $urlServer = $this->urlServer .substr($asset->path, 1);
+            $urlServer = $this->urlServer . substr($asset->path, 1);
+            
+        } else {
+            
+            $urlServer = $this->urlServer . $asset->path;
             
         }
         
