@@ -139,7 +139,7 @@ class ModelsGenerate extends GeneratorCommand
         }
             
         return array_filter($this->tables, function($table) use ($onlyTables) {
-            dd($table);
+            
             return in_array($table, $onlyTables, true);
 
         });
