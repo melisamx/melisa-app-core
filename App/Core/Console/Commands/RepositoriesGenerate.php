@@ -41,6 +41,21 @@ class RepositoriesGenerate extends GeneratorCommand
         $tables = [];
         $flag = true;
         
+        $onlyTables = config('commands.generate.only');
+        
+        if( !is_null($onlyTables)) {
+            
+            $result = array_map(function($table) use ($database) {
+                
+                $obj = new \stdClass();
+                $obj->{'Tables_in_' . $database} = $table;
+                
+                return $obj;
+                
+            }, $onlyTables);
+            
+        }
+        
         foreach($result as $i=>$table)
         {
             
