@@ -9,6 +9,7 @@ use App\Core\Repositories\OptionsTasksRepository;
 use App\Core\Repositories\MenusRepository;
 use App\Core\Repositories\EventsRepository;
 use App\Core\Repositories\ListenersRepository;
+use App\Security\Repositories\GatesRepository;
 use App\Core\Logics\Menus\Install as MenusInstall;
 
 /**
@@ -29,6 +30,7 @@ class Install
     protected $menusInstall;
     protected $events;
     protected $listeners;
+    protected $gates;
 
     public function __construct(
         ModulesRepository $modules,
@@ -39,7 +41,8 @@ class Install
         MenusInstall $menusInstall,
         ModulesTasksRepository $modulesTasks,
         EventsRepository $events,
-        ListenersRepository $listeners
+        ListenersRepository $listeners,
+        GatesRepository $gates
     ) {
         
         $this->modules = $modules;
@@ -51,6 +54,7 @@ class Install
         $this->modulesTasks = $modulesTasks;
         $this->events = $events;
         $this->listeners = $listeners;
+        $this->gates = $gates;
         
     }
     
@@ -104,6 +108,12 @@ class Install
             if ( isset($configModule['listener'])) {
                 
                 $idListener = $this->createListener($idModule, $configModule['listener']);
+                
+            }
+            
+            if ( isset($configModule['gate'])) {
+                
+                $iGate = $this->createGate($configModule['gate']);
                 
             }
             
@@ -276,6 +286,31 @@ class Install
         }
         
         return $taskOption->id;
+        
+    }
+    
+    public function createGate($gateConfig)
+    {
+        
+        $this->debug('Create or update gate {g}', [
+            'g'=>$gateConfig['key']
+        ]);
+        
+        $gate = $this->gates->updateOrCreate([
+            'key'=>$gateConfig['key'],
+        ], [
+            'description'=>$gateConfig['description'],
+            'active'=>isset($gateConfig['active']) ? 
+                $gateConfig['active'] : true
+        ]);
+        
+        if( !$gate) {
+            
+            return false;
+            
+        }
+        
+        return $gate->id;
         
     }
     
