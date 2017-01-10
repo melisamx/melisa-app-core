@@ -94,7 +94,7 @@ class RepositoriesGenerate extends GeneratorCommand
             
         }
         
-        return $this->create(ucfirst($table));
+        return $this->create(ucfirst($table) . 'Repository');
         
     }
     
