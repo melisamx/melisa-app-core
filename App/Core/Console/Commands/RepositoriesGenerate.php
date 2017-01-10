@@ -21,6 +21,16 @@ class RepositoriesGenerate extends GeneratorCommand
     protected $files;
     
     /**
+     * The table in process
+     */
+    protected $table;
+    
+    /**
+     * The tables in database connection
+     */
+    protected $tables;
+    
+    /**
      * Create a new controller creator command instance.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $files
@@ -31,54 +41,106 @@ class RepositoriesGenerate extends GeneratorCommand
         $this->files = $files;
     }
     
-    public function init($connection = 'mysql')
+    public function init($group = 'mysql')
     {
         
-        $connection = \DB::connection($connection);
-        $result = $connection->select('show tables');
-        $database = $connection->getConfig('database');
-        $prefix = $connection->getConfig('prefix');
-        $tables = [];
-        $flag = true;
+        $connection = $this->getConnection($group);
+        $tables = $this->getTables();
         
-        $onlyTables = config('commands.generate.only');
-        
-        if( !is_null($onlyTables)) {
+        if( empty($tables)) {
             
-            $result = array_map(function($table) use ($database) {
-                
-                $obj = new \stdClass();
-                $obj->{'Tables_in_' . $database} = $table;
-                
-                return $obj;
-                
-            }, $onlyTables);
+            $this->info('Empty database');
+            return true;
             
         }
         
-        foreach($result as $i=>$table)
-        {
+        return $this->createFiles($this->getTablesGenerate());
+        
+    }
+    
+    public function createFiles($tables)
+    {
+        
+        $flag = true;
+        
+        foreach($tables as $table) {
             
-            $tableName = ucfirst($table->{'Tables_in_' . $database});
-            
-            if( !empty($prefix)) {
-                
-                $tableName = substr($tableName, count($prefix));
-                
-            }
-            
-            $this->table = $tableName;
-            $flag = $this->create($tableName . 'Repository');
+            $flag = $this->createFileRepositorie($table);
             
             if( !$flag) {
-                
+
+                $this->error('Imposible create file Class repositorie {t}', [
+                    't'=>$table
+                ]);
                 break;
-                
+
             }
             
         }
         
         return $flag;
+        
+    }
+    
+    public function createFileRepositorie($table)
+    {
+        
+        $this->table = $table;
+        $prefix = $this->connection->getConfig('prefix');
+        
+        if( !empty($prefix) && substr($table, 0, strlen($prefix)) == $prefix) {
+            
+            $table = substr($table, strlen($prefix));
+            
+        }
+        
+        return $this->create(ucfirst($table));
+        
+    }
+    
+    public function getTablesGenerate()
+    {
+        
+        $onlyTables = config('commands.generate.only');
+        
+        if( is_null($onlyTables)) {
+            
+            return $this->tables;
+            
+        }
+            
+        return array_filter($this->tables, function($table) use ($onlyTables) {
+            
+            return in_array($table, $onlyTables, true);
+
+        });
+        
+    }
+    
+    public function getConnection($group)
+    {
+        
+        $this->connectionName = $group;
+        
+        return $this->connection = \DB::connection($group);;
+        
+    }
+    
+    public function getTables()
+    {
+        
+        $result = $this->connection->select('show tables');
+        $database = $this->connection->getConfig('database');
+        $tables = [];
+        
+        foreach($result as $i=>$table)
+        {
+            
+            $tables []= $table->{'Tables_in_' . $database};
+            
+        }
+        
+        return $this->tables = $tables;
         
     }
     
@@ -114,6 +176,14 @@ class RepositoriesGenerate extends GeneratorCommand
     {
         
         parent::replaceNamespace($stub, $name);
+        
+        $prefix = $this->connection->getConfig('prefix');
+        
+        if( !empty($prefix) && substr($this->table, 0, strlen($prefix)) == $prefix) {
+            
+            $this->table = substr($this->table, strlen($prefix));
+            
+        }
         
         $stub = str_replace(
             'DummyClassModel', $this->table, $stub
