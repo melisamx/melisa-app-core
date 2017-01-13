@@ -20,32 +20,50 @@ class Hierarchical
         
     }
     
-    public function generate($key) {
+    public function get($key) {
         
-        if( substr($key, 0, 4) !== 'menu') {
-            
-            $key = 'menu.' . $key;
-            
+        if( substr($key, 0, 4) !== 'menu') {            
+            $key = 'menu.' . $key;            
         }
         
         $menu = $this->menus->getByMenuKey($key);
         
-        if( !count($menu)) {
-            
+        if( !count($menu)) {            
             return $this->error('Menu {k} no exist', [
                 'k'=>$key
             ]);
+        }
+        
+        $this->filterOnlyAllowed($menu);
+        
+        return $this->generate($menu);
+        
+    }
+    
+    public function filterOnlyAllowed(&$menu)
+    {
+        
+        foreach($menu as $option) {
+            
+            if( !isset($option->taskKey)) {
+                continue;
+            }
+            
+            $option->allowed = $this->isAllowed($option->taskKey);
             
         }
+        
+    }
+    
+    public function generate(&$menu)
+    {
         
         $menuHierarchical = [];
         
         foreach($menu as $option) {
             
             if( $option->idOptionParent) {
-                
-                continue;
-                
+                continue;                
             }
             
             if( $option->optionKey === 'tbfill') {
@@ -55,6 +73,10 @@ class Hierarchical
                 ];
                 continue;
                 
+            }
+            
+            if( isset($option->allowed) && !$option->allowed) {
+                continue;
             }
             
             $optionsChildren = $this->getOptionsChildren($menu, $option->id);
@@ -73,10 +95,8 @@ class Hierarchical
         
         foreach($menu as $option) {
             
-            if( $option->idOptionParent != $idOptionParent) {
-                
-                continue;
-                
+            if( $option->idOptionParent != $idOptionParent) {                
+                continue;                
             }
             
             $subOptions = $this->getOptionsChildren($menu, $option->id);
@@ -102,15 +122,13 @@ class Hierarchical
             ],
         ];
         
-        if( !empty($option->moduleNameSpace)) {
-            
+        if( !empty($option->moduleNameSpace)) {            
             $configOption ['module']= [
                 'nameSpace'=>$option->moduleNameSpace,
                 'url'=>$option->moduleUrl,
                 'active'=>$option->moduleActive,
                 'version'=>$option->moduleVersion,
-            ];
-            
+            ];            
         }
         
         $configOption ['items']= $subOptions;

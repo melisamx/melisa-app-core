@@ -72,7 +72,7 @@ class Menu
             
         }
         
-        $menu = $this->menus->generate($key);
+        $menu = $this->menus->get($key);
         
         if( $menu === false) {
 

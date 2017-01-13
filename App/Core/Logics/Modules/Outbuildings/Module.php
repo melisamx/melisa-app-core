@@ -36,7 +36,7 @@ class Module
             
         }
         
-        $this->debug('loading {c} modules: {i}', [
+        $this->debug('loading {c} module(s): {i}', [
             'c'=>count($keys),
             'i'=>implode(',', $keys)
         ]);
