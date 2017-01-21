@@ -20,9 +20,7 @@ class ManifestSenchaModule extends Outbuildings
                 'extjs.620.locale.es',
             ],
             'nodebug'=>[
-                'extjs.620.js',
-                'extjs.620.classic.triton',
-                'extjs.620.locale.es',
+                'extjs.620.package.classic.triton',
             ],
         ],
         'modern'=>[
@@ -32,15 +30,13 @@ class ManifestSenchaModule extends Outbuildings
                 'extjs.620.locale.es',
             ],
             'nodebug'=>[
-                'extjs.620.modern.js',
-                'extjs.620.modern.material',
-                'extjs.620.locale.es',
+                'extjs.620.package.modern.material'
             ],
         ]
     ];
     public $css = [
         'classic'=>[
-            'extjs.620.classic.triton.css'
+            'extjs.620.package.classic.triton.css'
         ],
         'modern'=>[
             'extjs.620.modern.material.css'

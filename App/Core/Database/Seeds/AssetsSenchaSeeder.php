@@ -157,6 +157,24 @@ class AssetsSenchaSeeder extends InstallSeeder
             'extraParams'=>'androidAsset=inject'
         ]);
         
+        $this->installAssetJs('extjs.620.package.classic.triton', [
+            'name'=>'Sencha ExtJS 6.2 package concat files theme triton',
+            'path'=>'/vendor/sencha/6.2.0.981/sencha-classic-triton.min.js',
+            'extraParams'=>'androidAsset=inject'
+        ]);
+        
+        $this->installAssetJs('extjs.620.package.modern.material', [
+            'name'=>'Sencha ExtJS 6.2 package concat files theme material',
+            'path'=>'/vendor/sencha/6.2.0.981/sencha-modern-material.min.js',
+            'extraParams'=>'androidAsset=inject'
+        ]);
+        
+        $this->installAssetCss('extjs.620.package.classic.triton.css', [
+            'name'=>'Sencha ExtJS 6.2 all css',
+            'path'=>'/vendor/sencha/6.2.0.981/sencha-classic-triton.css',
+            'extraParams'=>'androidAsset=inject'
+        ]);
+        
     }
     
 }
