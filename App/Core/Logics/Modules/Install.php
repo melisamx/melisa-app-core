@@ -115,6 +115,10 @@ class Install
                 
                 $iGate = $this->createGate($configModule['gate']);
                 
+            } else {
+                
+                $iGate = $this->createGate($configModule['task']);
+                
             }
             
             $idOption = $this->createOption($configModule['url'], $configModule['option']);
