@@ -14,12 +14,31 @@ class Outbuildings
     
     public $debug = true;
     public $event = null;
+    protected $input = null;
     
+    public function withInput($input)
+    {
+        $this->input = $input;
+        return $this;
+    }
+    
+    public function getInput()
+    {
+        return $this->input;
+    }
+
     public function render() {
         
         $this->debug = config('app.env') === 'local' ? true : false;
         
         $dataDictionary = $this->dataDictionary($this);
+        
+        if( $dataDictionary === false) {
+            return [
+                'success'=>false,
+                'errors'=>melisa('msg')->get()
+            ];
+        }
         
         if( isset($this->layout) && is_string($this->layout)) {
             
