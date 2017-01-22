@@ -180,9 +180,9 @@ class RepositoriesGenerate extends GeneratorCommand
         $prefix = $this->connection->getConfig('prefix');
         
         if( !empty($prefix) && substr($this->table, 0, strlen($prefix)) == $prefix) {
-            
             $this->table = substr($this->table, strlen($prefix));
-            
+        } else {
+            $this->table = ucfirst($this->table);
         }
         
         $stub = str_replace(
