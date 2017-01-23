@@ -128,6 +128,7 @@ class Hierarchical
                 'url'=>$option->moduleUrl,
                 'active'=>$option->moduleActive,
                 'version'=>$option->moduleVersion,
+                'allowed'=>isset($option->allowed) ? $option->allowed : true
             ];            
         }
         
