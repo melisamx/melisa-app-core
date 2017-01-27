@@ -57,6 +57,16 @@ class AssetsJsSeeder extends InstallSeeder
             'path'=>'/vendor/melisa/release/render-canvas.js'
         ]);
         
+        $this->installAssetJs('chartjs', [
+            'name'=>'Simple HTML5 Charts using the <canvas> tag',
+            'path'=>'/vendor/chartjs/release/Chart.min.js'
+        ]);
+        
+        $this->installAssetJs('chartjs.bundle', [
+            'name'=>'Simple HTML5 Charts using the <canvas> tag (version bundle)',
+            'path'=>'/vendor/chartjs/release/Chart.bundle.min.js'
+        ]);
+        
     }
     
 }
