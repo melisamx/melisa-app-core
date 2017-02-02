@@ -67,6 +67,16 @@ class AssetsJsSeeder extends InstallSeeder
             'path'=>'/vendor/chartjs/release/Chart.bundle.min.js'
         ]);
         
+        $this->installAssetJs('papaparse', [
+            'name'=>'Fast and powerful CSV',
+            'path'=>'/vendor/papaparse/release/papaparse.min.js'
+        ]);
+        
+        $this->installAssetJs('jsxlsx', [
+            'name'=>'XLSX / XLSM / XLSB / XLS / SpreadsheetML',
+            'path'=>'/vendor/js-xlsx/release/xlsx.full.min.js'
+        ]);
+        
     }
     
 }
