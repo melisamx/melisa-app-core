@@ -1,0 +1,12 @@
+<?php namespace DummyNamespace;
+
+/**
+ * 
+ * @author Luis Josafat Heredia Contreras
+ */
+class DummyClass extends DummyClassAbstract
+{
+    
+    
+    
+}

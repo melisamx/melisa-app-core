@@ -39,6 +39,19 @@ abstract class GeneratorCommand
     }
     
     /**
+     * Build update the class with the given name.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected function buildUpdateClass($path, $name)
+    {
+        $stub = $this->files->get($path);
+        return $this->replaceNamespace($stub, $name)
+                ->replaceClass($stub, $name);
+    }
+    
+    /**
      * Build the class with the given name.
      *
      * @param  string  $name
@@ -47,7 +60,8 @@ abstract class GeneratorCommand
     protected function buildClass($name)
     {
         $stub = $this->files->get($this->getStub());
-        return $this->replaceNamespace($stub, $name)->replaceClass($stub, $name);
+        return $this->replaceNamespace($stub, $name)
+                ->replaceClass($stub, $name);
     }
     
     /**

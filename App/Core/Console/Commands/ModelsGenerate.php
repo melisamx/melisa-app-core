@@ -201,7 +201,55 @@ class ModelsGenerate extends GeneratorCommand
             
         }
         
-        return $this->create(ucfirst($table));
+        if( !$this->create(ucfirst($table . 'Abstract'))) {
+            return false;
+        }
+        
+        return $this->createModel(ucfirst($table));
+        
+    }
+    
+    public function createModel($file)
+    {
+        
+        $name = $this->parseName($file);
+        
+        $path = $this->getPath($name);
+        
+        if ($this->alreadyExists($file)) {            
+            $this->debug($this->type.' already exists!');
+            return true;            
+        }
+        
+        $stub = $this->files->get($this->getStupModel());
+//        dd($name);
+        $this->files->put($path, $this->buildClassModel($stub, $name));
+        
+        $this->info($this->type.' created successfully.');
+        return true;
+        
+    }
+    
+    public function buildClassModel(&$stub, $name)
+    {
+        
+        $prefix = $this->connection->getConfig('prefix');
+        
+        if( !empty($prefix) && substr($this->table, 0, strlen($prefix)) == $prefix) {
+            
+            $this->table = substr($this->table, strlen($prefix));
+            
+        }
+        
+        $stub = str_replace(
+            'DummyNamespace', $this->getNamespace($name), $stub
+        );
+        
+        $stub = str_replace(
+            'DummyClass', $this->table, $stub
+        );
+        
+        return $stub;
         
     }
     
@@ -325,7 +373,7 @@ class ModelsGenerate extends GeneratorCommand
             isset($fields['id']['isUuid']) && 
             $fields['id']['isUuid']) {
             
-            return __DIR__.'/../stubs/modelsUuid.stub';
+            return __DIR__.'/../stubs/modelsUuidAbstract.stub';
             
         }
         
@@ -333,6 +381,15 @@ class ModelsGenerate extends GeneratorCommand
         
     }
     
+    
+    protected function getStupModel()
+    {
+        
+        return __DIR__.'/../stubs/modelsX.stub';
+        
+    }
+
+
     public function getFieldMetadata(&$connection, $table)
     {
         

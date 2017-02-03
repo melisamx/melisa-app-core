@@ -6,7 +6,7 @@ use Melisa\Laravel\Models\BaseUuid;
  * 
  * @author Luis Josafat Heredia Contreras
  */
-class DummyClass extends BaseUuid
+abstract class DummyClass extends BaseUuid
 {
     
     protected $connection = 'DummyConnection';
