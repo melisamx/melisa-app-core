@@ -246,7 +246,7 @@ class ModelsGenerate extends GeneratorCommand
         );
         
         $stub = str_replace(
-            'DummyClass', $this->table, $stub
+            'DummyClass', ucfirst($this->table), $stub
         );
         
         return $stub;

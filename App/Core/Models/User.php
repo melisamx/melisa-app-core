@@ -50,4 +50,9 @@ class User extends Authenticatable
         
     }
     
+    public function avatars()
+    {
+        return $this->hasMany('App\Security\Models\UsersAvatars', 'idUser');
+    }
+    
 }
