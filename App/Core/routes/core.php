@@ -1,7 +1,7 @@
 <?php
 
 Route::get('sencha/{version}/{path}', 'SenchaController@file')->where([
-    'version'=>'(\d\.\d\.\d)',
+    'version'=>'(\d*\.\d*\.\d*)',
     'path'=>'(.*)'
 ]);
 
