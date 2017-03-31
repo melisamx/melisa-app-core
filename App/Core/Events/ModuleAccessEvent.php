@@ -27,7 +27,7 @@ class ModuleAccessEvent implements EventBinnacle
     
     public function getKey() {
         
-        return $this->key;
+        return 'event.' . $this->key;
         
     }
     
