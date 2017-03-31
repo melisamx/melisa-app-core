@@ -1,5 +1,6 @@
 <?php namespace App\Core\Logics\Modules;
 
+use Melisa\core\LogicBusiness;
 use App\Core\Repositories\ModulesRepository;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ClientException;
@@ -11,6 +12,7 @@ use GuzzleHttp\Exception\ClientException;
  */
 class Run
 {
+    use LogicBusiness;
     
     protected $modules;
     private $user;
