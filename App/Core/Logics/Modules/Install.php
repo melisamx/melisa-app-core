@@ -99,16 +99,20 @@ class Install
                 
             }
             
-            if ( isset($configModule['event'])) {
-                
-                $idEvent = $this->createEvent($configModule['event']);
-                
+            if ( isset($configModule['event'])) {                
+                $idEvent = $this->createEvent($configModule['event']);                
             }
             
-            if ( isset($configModule['listener'])) {
-                
-                $idListener = $this->createListener($idModule, $configModule['listener']);
-                
+            if ( isset($configModule['events'])) {                
+                $this->createEvents($configModule['events']);                
+            }
+            
+            if ( isset($configModule['listener'])) {                
+                $idListener = $this->createListener($idModule, $configModule['listener']);                
+            }
+            
+            if ( isset($configModule['listeners'])) {                
+                $this->createListeners($idModule, $configModule['listeners']);                
             }
             
             if ( isset($configModule['gate'])) {
@@ -318,6 +322,23 @@ class Install
         
     }
     
+    public function createListeners($idModule, array &$listeners)
+    {
+        
+        $this->debug('Init create {l} listeners', [
+            'l'=>count($listeners)
+        ]);
+        
+        foreach($listeners as $listener) {
+            if( !$this->createListener($idModule, $listener)) {
+                return false;
+            }
+        }
+        
+        return true;
+        
+    }
+    
     public function createListener($idModule, &$keyListener) {
         
         $this->debug('Create or update listener {l}', [
@@ -364,6 +385,23 @@ class Install
         }
         
         return $listener->id;
+        
+    }
+    
+    public function createEvents(array &$events)
+    {
+        
+        $this->debug('Init create {e} events', [
+            'e'=>count($events)
+        ]);
+        
+        foreach($events as $event) {
+            if( !$this->createEvent($event)) {
+                return false;
+            }
+        }
+        
+        return true;
         
     }
     

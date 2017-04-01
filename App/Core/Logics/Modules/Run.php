@@ -4,6 +4,7 @@ use Melisa\core\LogicBusiness;
 use App\Core\Repositories\ModulesRepository;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 
 /**
  * 
@@ -110,6 +111,13 @@ class Run
         } catch (ConnectException $ex) {
             
             $flag = false;
+        } catch (ServerException $ex) {
+            
+            $flag = false;
+            $response = $ex->getResponse();
+            $contents = $response->getBody()->getContents();
+            $this->setError($contents);
+            
         }
         
         return $flag;
