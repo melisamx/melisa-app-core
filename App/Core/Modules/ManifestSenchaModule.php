@@ -98,6 +98,11 @@ class ManifestSenchaModule extends Outbuildings
             ],
             'autoPaths'=>true,
             'framework'=>'ext',
+//            'output'=>[
+//                'appCache'=>[
+//                    'cache'=>true
+//                ]
+//            ]
         ];
         
     }
