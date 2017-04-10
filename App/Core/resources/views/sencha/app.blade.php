@@ -40,12 +40,13 @@
              */
             Ext.beforeLoad = function (tags) {
                 
-                var s = location.search,  // the query string (ex "?foo=1&bar")
-                    profile;
+                var s = location.search,// the query string (ex "?foo=1&bar")
+                    profile,
+                    pathname = location.pathname,
+                    lastIndex = pathname.lastIndexOf('/', pathname.length -1);
 
                 // For testing look for "?classic" or "?modern" in the URL to override
                 // device detection default.
-                //
                 if (s.match(/\bclassic\b/)) {
                     
                     profile = 'classic';
@@ -58,6 +59,11 @@
                     
                     profile = tags.desktop ? 'classic' : 'modern';
                     
+                }
+                
+                /* fix pathname finish / */
+                if(  lastIndex !== pathname.length -1) {
+                    window.location = location.protocol + '//' + location.host + pathname + '/' + s;
                 }
                 
                 Ext.manifest = '{{ $urlManifest }}' + profile + '/?config';
@@ -76,7 +82,6 @@
             <div class="loader-content">
                 <h2 class="loader">Espere un momento...</h2>
             </div>
-            <img src="{{ $imagePoweredBy }}" alt="Logo" />
         </div>
         
     </body>
