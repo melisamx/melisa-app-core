@@ -55,6 +55,11 @@ class AssetsCssSeeder extends InstallSeeder
             'path'=>'/vendor/bootstrap/release/reports/css/print.css',
         ]);
         
+        $this->installAssetCss('vuematerial.css', [
+            'name'=>'Vue Material CSS',
+            'path'=>'/vendor/vuematerial/release/vue-material.css',
+        ]);
+        
     }
     
 }

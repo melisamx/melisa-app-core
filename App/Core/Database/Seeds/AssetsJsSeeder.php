@@ -77,6 +77,11 @@ class AssetsJsSeeder extends InstallSeeder
             'path'=>'/vendor/js-xlsx/release/xlsx.full.min.js'
         ]);
         
+        $this->installAssetJs('vuematerial', [
+            'name'=>'Vue Material',
+            'path'=>'/vendor/vuematerial/release/vue-material.js',
+        ]);
+        
     }
     
 }
