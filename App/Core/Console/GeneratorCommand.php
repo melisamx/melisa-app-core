@@ -17,7 +17,7 @@ abstract class GeneratorCommand
      */
     protected $type;
     
-    protected function create($file)
+    protected function create($file, $delete = false)
     {
         
         $name = $this->parseName($file);
@@ -26,8 +26,11 @@ abstract class GeneratorCommand
         
         if ($this->alreadyExists($file)) {
             
-            $this->debug($this->type.' already exists!');
-            return true;
+            if( !$delete) {
+                $this->debug($file .' already exists!');
+                return true;
+            }
+                
         }
         
         $this->makeDirectory($path);

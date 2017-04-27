@@ -199,7 +199,7 @@ class ModelsGenerate extends GeneratorCommand
             
         }
         
-        if( !$this->create(ucfirst($table . 'Abstract'))) {
+        if( !$this->create(ucfirst($table . 'Abstract'), true)) {
             return false;
         }
         
