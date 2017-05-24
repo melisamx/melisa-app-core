@@ -1,4 +1,6 @@
-<?php namespace DummyNamespace;
+<?php 
+
+namespace DummyNamespace;
 
 use Melisa\Laravel\Models\Base;
 
@@ -7,19 +9,13 @@ use Melisa\Laravel\Models\Base;
  *
  * @author Luis Josafat Heredia Contreras
  */
-class DummyClass extends Base
-{
-    
+abstract class DummyClass extends Base
+{    
     protected $connection = 'DummyConnection';
-    
     protected $table = 'DummyTable';
-    
+    /* timestamps */
+    /* incrementing */
     protected $fillable = [
         DummyFields
-    ];
-    
-    /* timestamps */
-    
-    /* incrementing */
-    
+    ];    
 }

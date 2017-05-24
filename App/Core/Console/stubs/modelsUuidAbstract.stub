@@ -1,4 +1,6 @@
-<?php namespace DummyNamespace;
+<?php 
+
+namespace DummyNamespace;
 
 use Melisa\Laravel\Models\BaseUuid;
 
@@ -7,18 +9,12 @@ use Melisa\Laravel\Models\BaseUuid;
  * @author Luis Josafat Heredia Contreras
  */
 abstract class DummyClass extends BaseUuid
-{
-    
+{    
     protected $connection = 'DummyConnection';
-    
     protected $table = 'DummyTable';
-    
+    /* timestamps */
+    /* incrementing */
     protected $fillable = [
         DummyFields
-    ];
-    
-    /* timestamps */
-    
-    /* incrementing */
-    
+    ];    
 }

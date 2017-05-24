@@ -279,7 +279,7 @@ class ModelsGenerate extends GeneratorCommand
         );
         
         $stub = str_replace(
-            'DummyFields', "'" . implode("', '", array_keys($this->fields)) . "'", $stub
+            'DummyFields', "'" . implode("'," . PHP_EOL . "        '", array_keys($this->fields)) . "'", $stub
         );
         
         $this->replaceTimestamps($stub);
