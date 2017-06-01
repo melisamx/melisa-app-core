@@ -1,4 +1,6 @@
-<?php namespace App\Core\Console\Commands;
+<?php
+
+namespace App\Core\Console\Commands;
 
 use Melisa\core\LogicBusiness;
 use App\Core\Console\GeneratorCommand;
@@ -63,192 +65,136 @@ class ModelsGenerate extends GeneratorCommand
     }
     
     public function init($group = 'mysql')
-    {
-        
+    {        
         $connection = $this->getConnection($group);
         $tables = $this->getTables();
         
-        if( empty($tables)) {
-            
+        if( empty($tables)) {            
             $this->info('Empty database');
-            return true;
-            
+            return true;            
         }
         
         $structTables = $this->reverseStruct($connection, $this->getTablesGenerate());
         
-        if( $structTables === false) {
-            
-            return FALSE;
-            
+        if( $structTables === false) {            
+            return FALSE;            
         }
         
-        if( empty($structTables)) {
-            
+        if( empty($structTables)) {            
             $this->info('empty struct tables');
-            return true;
-            
+            return true;            
         }
         
-        return $this->createFiles($structTables);
-        
+        return $this->createFiles($structTables);        
     }
     
     public function createFiles($structTables)
-    {
-        
-        $flag = true;
-        
-        foreach($structTables as $table => $fields) {
-            
-            $flag = $this->createFileModel($table, $fields);
-            
+    {        
+        $flag = true;        
+        foreach($structTables as $table => $fields) {            
+            $flag = $this->createFileModel($table, $fields);            
             if( !$flag) {
-
                 $this->error('Imposible create file Class model {t}', [
                     't'=>$table
                 ]);
                 break;
-
             }
             
         }
         
-        return $flag;
-        
+        return $flag;        
     }
     
     public function getConnection($group)
-    {
-        
-        $this->connectionName = $group;
-        
-        return $this->connection = \DB::connection($group);;
-        
+    {        
+        $this->connectionName = $group;        
+        return $this->connection = \DB::connection($group);        
     }
     
     public function getTablesGenerate()
-    {
-        
-        $onlyTables = config('commands.generate.only');
-        
-        if( is_null($onlyTables)) {
-            
-            return $this->tables;
-            
+    {        
+        $onlyTables = config('commands.generate.only');        
+        if( is_null($onlyTables)) {            
+            return $this->tables;            
         }
             
-        return array_filter($this->tables, function($table) use ($onlyTables) {
-            
+        return array_filter($this->tables, function($table) use ($onlyTables) {            
             return in_array($table, $onlyTables, true);
-
-        });
-        
+        });        
     }
     
     public function getTables()
-    {
-        
+    {        
         $result = $this->connection->select('show tables');
         $database = $this->connection->getConfig('database');
-        $tables = [];
-        
+        $tables = [];        
         foreach($result as $i=>$table)
-        {
-            
-            $tables []= $table->{'Tables_in_' . $database};
-            
+        {            
+            $tables []= $table->{'Tables_in_' . $database};            
         }
         
-        return $this->tables = $tables;
-        
+        return $this->tables = $tables;        
     }
     
     public function reverseStruct(&$connection, $listTables)
-    {
-        
+    {        
         $struct = [];
-        $flag = TRUE;
-        
-        foreach($listTables as $table) {
-            
-            $fields = $this->getFieldMetadata($connection, $table);
-            
+        $flag = TRUE;        
+        foreach($listTables as $table) {            
+            $fields = $this->getFieldMetadata($connection, $table);            
             if( empty($fields)) {    
                 continue;                
-            }
-            
-            $struct [$table]= $this->prepareConfig($fields);
-            
+            }            
+            $struct [$table]= $this->prepareConfig($fields);            
         }
         
-        return $struct;
-        
+        return $struct;        
     }
     
     public function createFileModel($table, array $fields)
-    {
-        
+    {        
         $this->table = $table;
         $this->fields = $fields;
-        $prefix = $this->connection->getConfig('prefix');
-        
-        if( !empty($prefix) && substr($table, 0, strlen($prefix)) == $prefix) {
-            
-            $table = substr($table, strlen($prefix));
-            
+        $prefix = $this->connection->getConfig('prefix');        
+        if( !empty($prefix) && substr($table, 0, strlen($prefix)) == $prefix) {            
+            $table = substr($table, strlen($prefix));            
         }
         
         if( !$this->create(ucfirst($table . 'Abstract'), true)) {
             return false;
         }
         
-        return $this->createModel(ucfirst($table));
-        
+        return $this->createModel(ucfirst($table));        
     }
     
     public function createModel($file)
-    {
-        
-        $name = $this->parseName($file);
-        
-        $path = $this->getPath($name);
-        
+    {        
+        $name = $this->parseName($file);        
+        $path = $this->getPath($name);        
         if ($this->alreadyExists($file)) {            
             $this->debug($this->type.' already exists!');
             return true;            
-        }
-        
+        }        
         $stub = $this->files->get($this->getStupModel());
-//        dd($name);
-        $this->files->put($path, $this->buildClassModel($stub, $name));
-        
+        $this->files->put($path, $this->buildClassModel($stub, $name));        
         $this->info($this->type.' created successfully.');
-        return true;
-        
+        return true;        
     }
     
     public function buildClassModel(&$stub, $name)
-    {
-        
-        $prefix = $this->connection->getConfig('prefix');
-        
-        if( !empty($prefix) && substr($this->table, 0, strlen($prefix)) == $prefix) {
-            
-            $this->table = substr($this->table, strlen($prefix));
-            
+    {        
+        $prefix = $this->connection->getConfig('prefix');        
+        if( !empty($prefix) && substr($this->table, 0, strlen($prefix)) == $prefix) {            
+            $this->table = substr($this->table, strlen($prefix));            
         }
         
         $stub = str_replace(
             'DummyNamespace', $this->getNamespace($name), $stub
-        );
-        
+        );        
         $stub = str_replace(
             'DummyClass', ucfirst($this->table), $stub
-        );
-        
-        return $stub;
-        
+        );        
+        return $stub;        
     }
     
     /**
@@ -259,16 +205,11 @@ class ModelsGenerate extends GeneratorCommand
      * @return $this
      */
     protected function replaceNamespace(&$stub, $name)
-    {
-        
-        parent::replaceNamespace($stub, $name);
-        
-        $prefix = $this->connection->getConfig('prefix');
-        
-        if( !empty($prefix) && substr($this->table, 0, strlen($prefix)) == $prefix) {
-            
-            $this->table = substr($this->table, strlen($prefix));
-            
+    {        
+        parent::replaceNamespace($stub, $name);        
+        $prefix = $this->connection->getConfig('prefix');        
+        if( !empty($prefix) && substr($this->table, 0, strlen($prefix)) == $prefix) {            
+            $this->table = substr($this->table, strlen($prefix));            
         }
         
         $stub = str_replace(
@@ -276,67 +217,48 @@ class ModelsGenerate extends GeneratorCommand
         );
         $stub = str_replace(
             'DummyConnection', $this->connectionName, $stub
-        );
-        
+        );        
         $stub = str_replace(
             'DummyFields', "'" . implode("'," . PHP_EOL . "        '", array_keys($this->fields)) . "'", $stub
         );
         
         $this->replaceTimestamps($stub);
-        $this->replaceIncrementing($stub);
-        
-        return $this;
-        
+        $this->replaceIncrementing($stub);        
+        return $this;        
     }
     
     public function replaceIncrementing(&$stub)
-    {
-        
+    {        
         if( !isset($this->fields['id']) ||
             !isset($this->fields['id']['autoIncrement']) || 
-            !$this->fields['id']['autoIncrement']) {
-            
-            return $this;
-            
+            !$this->fields['id']['autoIncrement']) {            
+            return $this;            
         }
         
         $stub = str_replace(
             '/* incrementing */', 'public $incrementing = true;', $stub
-        );
-        
+        );        
     }
     
     public function replaceTimestamps(&$stub)
-    {
-        
-        $fieldsKeys = array_keys($this->fields);
-        
-        $findCount = 0;
-        
-        foreach($this->fieldsStamps as $field) {
-            
-            if( in_array($field, $fieldsKeys, true)) {
-                
-                ++$findCount;
-                
-            }
-            
+    {        
+        $fieldsKeys = array_keys($this->fields);        
+        $findCount = 0;        
+        foreach($this->fieldsStamps as $field) {            
+            if( in_array($field, $fieldsKeys, true)) {                
+                ++$findCount;                
+            }            
         }
         
-        if( $findCount !== 2) {
-            
+        if( $findCount !== 2) {            
             $stub = str_replace(
                 '/* timestamps */', 'public $timestamps = false;', $stub
-            );
-            
-        } else {
-            
+            );            
+        } else {            
             $stub = str_replace(
                 '/* timestamps */', 'public $timestamps = true;', $stub
-            );
-            
-        }
-        
+            );            
+        }        
     }
     
     /**
@@ -356,162 +278,119 @@ class ModelsGenerate extends GeneratorCommand
      * @return string
      */
     protected function getStub()
-    {
-        
-        $fields = $this->fields;
-        
-        if( !isset($fields['id'])) {
-            
-            return __DIR__.'/../stubs/models.stub';
-            
+    {        
+        $fields = $this->fields;        
+        if( !isset($fields['id'])) {            
+            return __DIR__.'/../stubs/models.stub';            
         }
         
         if( isset($fields['id']['isPrimaryKey']) && 
             $fields['id']['isPrimaryKey'] && 
             isset($fields['id']['isUuid']) && 
-            $fields['id']['isUuid']) {
-            
-            return __DIR__.'/../stubs/modelsUuidAbstract.stub';
-            
+            $fields['id']['isUuid']) {            
+            return __DIR__.'/../stubs/modelsUuidAbstract.stub';            
         }
         
-        return __DIR__.'/../stubs/models.stub';
-        
+        return __DIR__.'/../stubs/models.stub';        
     }
     
     
     protected function getStupModel()
-    {
-        
-        return __DIR__.'/../stubs/modelsX.stub';
-        
+    {        
+        return __DIR__.'/../stubs/modelsX.stub';        
     }
 
 
     public function getFieldMetadata(&$connection, $table)
-    {
-        
+    {        
         $prefix = $connection->getConfig('prefix');
-        $database = $connection->getConfig('database');
-        
-        if( empty($prefix)) {
-            
-            $table = lcfirst($table);
-            
+        $database = $connection->getConfig('database');        
+        if( empty($prefix)) {            
+            $table = lcfirst($table);            
         }
         
         /* extract to http://lucidchart.com/ */
         $columns = $connection->select('SELECT c.TABLE_SCHEMA, c.COLUMN_NAME, c.ORDINAL_POSITION, c.DATA_TYPE, c.CHARACTER_MAXIMUM_LENGTH, c.COLUMN_DEFAULT, c.IS_NULLABLE, c.NUMERIC_PRECISION, c.NUMERIC_SCALE, n.CONSTRAINT_TYPE, k.REFERENCED_TABLE_SCHEMA, k.REFERENCED_TABLE_NAME, k.REFERENCED_COLUMN_NAME, t.AUTO_INCREMENT         FROM INFORMATION_SCHEMA.TABLES t         LEFT JOIN INFORMATION_SCHEMA.COLUMNS c ON t.TABLE_SCHEMA=c.TABLE_SCHEMA AND t.TABLE_NAME=c.TABLE_NAME         LEFT JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE k ON c.TABLE_SCHEMA=k.TABLE_SCHEMA AND c.TABLE_NAME=k.TABLE_NAME AND c.COLUMN_NAME=k.COLUMN_NAME         LEFT JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS n ON k.CONSTRAINT_SCHEMA=n.CONSTRAINT_SCHEMA AND k.CONSTRAINT_NAME=n.CONSTRAINT_NAME AND k.TABLE_SCHEMA=n.TABLE_SCHEMA AND k.TABLE_NAME=n.TABLE_NAME         WHERE t.TABLE_TYPE=\'BASE TABLE\' AND t.TABLE_NAME = "' . 
                 $table . '" AND c.TABLE_SCHEMA="' .
-                $database . '"');
-        
-        $fieldColumn = [];
-        
-        foreach ($columns as $i => $column) {
-            
+                $database . '"');        
+        $fieldColumn = [];        
+        foreach ($columns as $i => $column) {            
             $fieldColumn[$i] = new \stdClass();
             $fieldColumn[$i]->name = $column->COLUMN_NAME;
             $fieldColumn[$i]->type = $column->DATA_TYPE;
             $fieldColumn[$i]->max_length = ($column->CHARACTER_MAXIMUM_LENGTH > 0) ? 
                     (int)$column->CHARACTER_MAXIMUM_LENGTH : 
                     (int)$column->NUMERIC_PRECISION;
-
-            if( !is_null($column->COLUMN_DEFAULT)) {
-                
+            if( !is_null($column->COLUMN_DEFAULT)) {                
                 if( in_array($fieldColumn[$i]->type, [
                     'int',
                     'smallint'
-                ])) {
-                    
-                    $fieldColumn[$i]->default = (int)$column->COLUMN_DEFAULT;
-                    
+                ])) {                    
+                    $fieldColumn[$i]->default = (int)$column->COLUMN_DEFAULT;                    
                 } else if( in_array($fieldColumn[$i]->type, [
                     'datetime',
-                ])) {
-                    
-                    $fieldColumn[$i]->default = $column->COLUMN_DEFAULT;
-                    
+                ])) {                    
+                    $fieldColumn[$i]->default = $column->COLUMN_DEFAULT;                    
                 } else if( in_array($fieldColumn[$i]->type, [
                     'tinyint'
-                ])) {
-                    
-                    $fieldColumn[$i]->default = (bool)$column->COLUMN_DEFAULT;
-                    
-                } else {
-                    
-                    $fieldColumn[$i]->default = $column->COLUMN_DEFAULT;
-                    
-                }
-                
-            } else {
-                
-                $fieldColumn[$i]->default = NULL;
-                
+                ])) {                    
+                    $fieldColumn[$i]->default = (bool)$column->COLUMN_DEFAULT;                    
+                } else {                    
+                    $fieldColumn[$i]->default = $column->COLUMN_DEFAULT;                    
+                }                
+            } else {                
+                $fieldColumn[$i]->default = NULL;                
             }
             
-            if( $fieldColumn[$i]->type == 'decimal') {
-                
-                $fieldColumn[$i]->scale = (int)$column->NUMERIC_SCALE;
-                
+            if( $fieldColumn[$i]->type == 'decimal') {                
+                $fieldColumn[$i]->scale = (int)$column->NUMERIC_SCALE;                
             }
             
-            $fieldColumn[$i]->primary_key =  $column->CONSTRAINT_TYPE === 'PRIMARY KEY' ? TRUE : FALSE;
+            $fieldColumn[$i]->primary_key = $column->CONSTRAINT_TYPE === 'PRIMARY KEY' 
+                ? TRUE : FALSE;            
+            $fieldColumn[$i]->null = $column->IS_NULLABLE === 'NO' 
+                ? FALSE : TRUE;
             
-            $fieldColumn[$i]->null = $column->IS_NULLABLE === 'NO' ? FALSE : TRUE;
-            
-            if( $fieldColumn[$i]->primary_key) {
-                
-                $fieldColumn[$i]->auto_increment = is_null($column->AUTO_INCREMENT) ? FALSE : TRUE;
-                        
+            if( $fieldColumn[$i]->primary_key) {                
+                $fieldColumn[$i]->auto_increment = is_null($column->AUTO_INCREMENT) 
+                    ? FALSE : TRUE;                        
             }
             
-            if($column->CONSTRAINT_TYPE === 'FOREIGN KEY') {
-                
+            if($column->CONSTRAINT_TYPE === 'FOREIGN KEY') {                
                 $fieldColumn[$i]->isForeignKey = TRUE;
                 $fieldColumn[$i]->related = [
                     'database'=>$column->REFERENCED_TABLE_SCHEMA,
                     'table'=>$column->REFERENCED_TABLE_NAME,
                     'column'=>$column->REFERENCED_COLUMN_NAME
-                ];
-                
-            } else {
-                
-                $fieldColumn[$i]->isForeignKey = FALSE;
-                
-            }
-            
+                ];                
+            } else {                
+                $fieldColumn[$i]->isForeignKey = FALSE;                
+            }            
         }
         
-        return $fieldColumn;
-        
+        return $fieldColumn;        
     }
     
     public function prepareConfig(&$fields)
-    {
-        
-        $fieldsConfig = array();
+    {        
+        $fieldsConfig = [];
         
         foreach($fields as $field) {
             
-            $fieldConfig = array();
-            
-            if( $field->primary_key) {
-                
-                $fieldConfig['json_input'] = TRUE;
-                $fieldConfig['isPrimaryKey'] = TRUE;
-                $fieldConfig['autoIncrement'] = isset($field->auto_increment) ? 
-                    $field->auto_increment : false;
-                
+            $fieldConfig = [];            
+            if( $field->primary_key) {                
+                $fieldConfig['json_input'] = true;
+                $fieldConfig['isPrimaryKey'] = true;
+                $fieldConfig['autoIncrement'] = isset($field->auto_increment) 
+                    ? $field->auto_increment : false;
             }
             
-            if( $field->isForeignKey) {
-                
-                $fieldConfig['isForeignKey']= TRUE;
+            if( $field->isForeignKey) {                
+                $fieldConfig['isForeignKey']= true;
                 $fieldConfig['related']= [
                     'tabla'=>$field->related['table'],
                     'columna'=>$field->related['column'],
-                ];
-                
+                ];                
             }
             
             if( in_array($field->type, [
@@ -519,66 +398,47 @@ class ModelsGenerate extends GeneratorCommand
                 'char',
                 'nvarchar',
                 'text'
-            ])) {
-                
+            ])) {                
                 $fieldConfig['tipo'] = 'cadena';
                 $fieldConfig['validador'] = 'texto';
-                $fieldConfig['size'] = $field->max_length;
-                
+                $fieldConfig['size'] = $field->max_length;                
             } else if( in_array($field->type, [
                 'datetime',
                 'datetime2',
-            ])){
-                
-                $fieldConfig['tipo'] = 'fecha_tiempo';
-                
+            ])){                
+                $fieldConfig['tipo'] = 'fecha_tiempo';                
             } else if( in_array($field->type, [
                 'tinyint',
                 'boolean'
-            ])) {
-                
-                $fieldConfig['tipo'] = 'booleano';
-                
+            ])) {                
+                $fieldConfig['tipo'] = 'booleano';                
             } else if( in_array($field->type, [
                 'decimal'
-            ])) {
-                
+            ])) {                
                 $fieldConfig['tipo'] = 'decimal';
                 $fieldConfig['size'] = $field->max_length;
                 $fieldConfig['scale'] = $field->scale;
-                
-                
-            } else {
-                
-                $fieldConfig['size'] = $field->max_length;
-                
+            } else {                
+                $fieldConfig['size'] = $field->max_length;                
             }
             
-            if( $field->null) {
-                
-                $fieldConfig['requerido'] = FALSE;
-                
+            if( $field->null) {                
+                $fieldConfig['requerido'] = false;                
             }
             
-            if( !is_null($field->default)) {
-                
-                $fieldConfig['default'] = $field->default;
-                
+            if( !is_null($field->default)) {                
+                $fieldConfig['default'] = $field->default;                
             }
             
-            if($field->primary_key && $field->max_length == 36) {
-                
+            if($field->primary_key && $field->max_length == 36) {                
                 $fieldConfig['validador'] = 'uuid';
-                $fieldConfig['isUuid'] = TRUE;
-                
+                $fieldConfig['isUuid'] = true;                
             }
             
-            $fieldsConfig[$field->name] = $fieldConfig;
-            
+            $fieldsConfig[$field->name] = $fieldConfig;            
         }
         
-        return $fieldsConfig;
-        
+        return $fieldsConfig;        
     }
 
 }

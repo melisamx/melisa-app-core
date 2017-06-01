@@ -1,4 +1,6 @@
-<?php namespace App\Core\Console\Commands;
+<?php
+
+namespace App\Core\Console\Commands;
 
 use Melisa\core\LogicBusiness;
 use App\Core\Console\GeneratorCommand;
@@ -42,8 +44,7 @@ class RepositoriesGenerate extends GeneratorCommand
     }
     
     public function init($group = 'mysql')
-    {
-        
+    {        
         $connection = $this->getConnection($group);
         $tables = $this->getTables();
         
@@ -54,94 +55,69 @@ class RepositoriesGenerate extends GeneratorCommand
             
         }
         
-        return $this->createFiles($this->getTablesGenerate());
-        
+        return $this->createFiles($this->getTablesGenerate());        
     }
     
     public function createFiles($tables)
-    {
-        
-        $flag = true;
-        
+    {        
+        $flag = true;        
         foreach($tables as $table) {
             
             $flag = $this->createFileRepositorie($table);
             
             if( !$flag) {
-
                 $this->error('Imposible create file Class repositorie {t}', [
                     't'=>$table
                 ]);
                 break;
-
             }
             
         }
         
-        return $flag;
-        
+        return $flag;        
     }
     
     public function createFileRepositorie($table)
-    {
-        
+    {        
         $this->table = $table;
         $prefix = $this->connection->getConfig('prefix');
         
-        if( !empty($prefix) && substr($table, 0, strlen($prefix)) == $prefix) {
-            
-            $table = substr($table, strlen($prefix));
-            
+        if( !empty($prefix) && substr($table, 0, strlen($prefix)) == $prefix) {            
+            $table = substr($table, strlen($prefix));            
         }
         
-        return $this->create(ucfirst($table) . 'Repository');
-        
+        return $this->create(ucfirst($table) . 'Repository');        
     }
     
     public function getTablesGenerate()
-    {
-        
+    {        
         $onlyTables = config('commands.generate.only');
         
-        if( is_null($onlyTables)) {
-            
-            return $this->tables;
-            
+        if( is_null($onlyTables)) {            
+            return $this->tables;            
         }
             
-        return array_filter($this->tables, function($table) use ($onlyTables) {
-            
+        return array_filter($this->tables, function($table) use ($onlyTables) {            
             return in_array($table, $onlyTables, true);
-
-        });
-        
+        });        
     }
     
     public function getConnection($group)
-    {
-        
-        $this->connectionName = $group;
-        
-        return $this->connection = \DB::connection($group);;
-        
+    {        
+        $this->connectionName = $group;        
+        return $this->connection = \DB::connection($group);        
     }
     
     public function getTables()
-    {
-        
+    {        
         $result = $this->connection->select('show tables');
         $database = $this->connection->getConfig('database');
-        $tables = [];
-        
-        foreach($result as $i=>$table)
-        {
-            
-            $tables []= $table->{'Tables_in_' . $database};
-            
+        $tables = [];        
+        foreach($result as $i=>$table) {            
+            $tables []= $table->{'Tables_in_' . $database};            
         }
         
-        return $this->tables = $tables;
-        
+        return $this->tables = $tables;        
     }
     
     /**
@@ -173,12 +149,9 @@ class RepositoriesGenerate extends GeneratorCommand
      * @return $this
      */
     protected function replaceNamespace(&$stub, $name)
-    {
-        
-        parent::replaceNamespace($stub, $name);
-        
-        $prefix = $this->connection->getConfig('prefix');
-        
+    {        
+        parent::replaceNamespace($stub, $name);        
+        $prefix = $this->connection->getConfig('prefix');        
         if( !empty($prefix) && substr($this->table, 0, strlen($prefix)) == $prefix) {
             $this->table = substr($this->table, strlen($prefix));
         } else {
@@ -191,8 +164,7 @@ class RepositoriesGenerate extends GeneratorCommand
         $stub = str_replace(
             'DummyModelNameSpace', app()->getNamespace() . '\Models', $stub
         );
-        return $this;
-        
+        return $this;        
     }
     
 }

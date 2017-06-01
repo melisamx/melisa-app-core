@@ -1,4 +1,6 @@
-<?php namespace App\Core\Listeners;
+<?php
+
+namespace App\Core\Listeners;
 
 use Illuminate\Auth\Events\Login;
 use App\Core\Logics\Binnacle\RegisterEvent;
@@ -21,37 +23,28 @@ class LoginSuccessListener implements EventBinnacle
     protected $identity;
 
     public function __construct(RegisterEvent $register, IdentitySession $identity)
-    {
-        
+    {        
         $this->register = $register;
-        $this->identity = $identity;
-                
+        $this->identity = $identity;                
     }
     
-    public function getData() {
-        
-        return $this->data;
-        
+    public function getData()
+    {        
+        return $this->data;        
     }
     
-    public function getKey() {
-        
-        return $this->key;
-        
+    public function getKey()
+    {        
+        return $this->key;        
     }
     
     public function handle(Login $login)
-    {
-        
-        $request = request();
-        
-        if ($request->is('api/*')) {
-            
+    {        
+        $request = request();        
+        if ($request->is('api/*')) {            
             $this->debug('ignore register login, request in api');
-            return true;
-            
-        }
-        
+            return true;            
+        }        
         $this->data = [
             'idUser'=>$login->user->id,
             'idIdentity'=>$this->identity->init($login->user->id),
@@ -59,10 +52,8 @@ class LoginSuccessListener implements EventBinnacle
             'idGoogleRegistration'=>$request->input('idGoogleRegistration'),
             'idOneSignalUser'=>$request->input('idOneSignalUser'),
             'remember'=>$login->remember
-        ];
-        
-        return $this->register->init($this);
-        
+        ];        
+        return $this->register->init($this);        
     }
     
 }

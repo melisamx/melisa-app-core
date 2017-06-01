@@ -1,4 +1,6 @@
-<?php namespace App\Core\Console;
+<?php
+
+namespace App\Core\Console;
 
 use Illuminate\Support\Str;
 
@@ -18,8 +20,7 @@ abstract class GeneratorCommand
     protected $type;
     
     protected function create($file, $delete = false)
-    {
-        
+    {        
         $name = $this->parseName($file);
         
         $path = $this->getPath($name);
@@ -37,8 +38,7 @@ abstract class GeneratorCommand
         $this->files->put($path, $this->buildClass($name));
         
         $this->info($this->type.' created successfully.');
-        return true;
-        
+        return true;        
     }
     
     /**
@@ -87,10 +87,8 @@ abstract class GeneratorCommand
      * @return string
      */
     protected function getPath($name)
-    {
-        
-        $name = str_replace(app()->getNamespace(), '', $name);
-        
+    {        
+        $name = str_replace(app()->getNamespace(), '', $name);        
         return base_path() . str_replace('\\', '/', $name).'.php';
     }
     
@@ -125,8 +123,7 @@ abstract class GeneratorCommand
      * @return string
      */
     protected function parseName($name)
-    {
-        
+    {        
         $rootNamespace = app()->getNamespace();
         if (Str::startsWith($name, $rootNamespace)) {
             return $name;

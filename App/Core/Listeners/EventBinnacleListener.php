@@ -1,4 +1,6 @@
-<?php namespace App\Core\Listeners;
+<?php
+
+namespace App\Core\Listeners;
 
 use App\Core\Logics\Binnacle\RegisterEvent;
 use Melisa\Laravel\Contracts\EventBinnacle;
@@ -14,10 +16,8 @@ class EventBinnacleListener
     protected $register;
 
     public function __construct(RegisterEvent $register)
-    {
-        
-        $this->register = $register;
-        
+    {        
+        $this->register = $register;        
     }
     
     /**
@@ -26,10 +26,8 @@ class EventBinnacleListener
      * @return void
      */
     public function handle(EventBinnacle $event)
-    {
-        
-        return $this->register->init($event);
-        
+    {        
+        return $this->register->init($event);        
     }
     
 }

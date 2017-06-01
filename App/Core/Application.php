@@ -1,4 +1,6 @@
-<?php namespace App\Core;
+<?php
+
+namespace App\Core;
 
 use Melisa\Laravel\ApplicationBase;
 

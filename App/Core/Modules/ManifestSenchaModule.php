@@ -1,4 +1,6 @@
-<?php namespace App\Core\Modules;
+<?php
+
+namespace App\Core\Modules;
 
 use App\Core\Logics\Modules\Outbuildings;
 use App\Core\Repositories\ApplicationsRepository;
@@ -50,24 +52,21 @@ class ManifestSenchaModule extends Outbuildings
     public $senchaUxPath = '/src/ux';
     public $nsAdd = [];
     
-    public function dataDictionary() {
-        
+    public function dataDictionary()
+    {        
         $configDefault = [
             'debug'=>$this->debug,
-        ];
-        
-        $config = melisa('array')->mergeDefault($configDefault, $this->config());
-        
-        return [ 'melisa'=>$config ] + $this->manifest();
-        
+        ];        
+        $config = melisa('array')->mergeDefault($configDefault, $this->config());        
+        return [ 'melisa'=>$config ] + $this->manifest();        
     }
     
     /**
      * Config basic in manifest sencha
      * @return Array
      */
-    public function manifest() {
-        
+    public function manifest()
+    {        
         return [
             'js'=>$this->getJs(),
             'css'=>$this->getCss(),
@@ -103,34 +102,29 @@ class ManifestSenchaModule extends Outbuildings
 //                    'cache'=>true
 //                ]
 //            ]
-        ];
-        
+        ];        
     }
     
-    public function config() {
-        
-        return [];
-        
+    public function config()
+    {        
+        return [];        
     }
     
     /**
      * Add NameSpace from other apps
      * @return Array
      */
-    public function getPaths() {
-        
+    public function getPaths()
+    {        
         $apps = app(ApplicationsRepository::class)->all([
             'nameSpace',
             'key',
             'version'
         ]);
         
-        $urlServer = config('app.url');
-        
-        if( !melisa('string')->endsWith($urlServer, '/')) {
-            
-            $urlServer .= '/';
-            
+        $urlServer = config('app.url');        
+        if( !melisa('string')->endsWith($urlServer, '/')) {            
+            $urlServer .= '/';            
         }
         
         $nameSpaces = [
@@ -138,62 +132,49 @@ class ManifestSenchaModule extends Outbuildings
                 $this->senchaUxPath
         ];
         
-        foreach($apps as $app) {
-            
+        foreach($apps as $app) {            
             $nameSpaces [$app->nameSpace]= sprintf('%s%s.php/sencha/%s', 
                 $urlServer, 
                 $app->key,
                 $app->version
-            );
-            
+            );            
         }
         
-        return array_merge($nameSpaces, $this->nsAdd);
-        
+        return array_merge($nameSpaces, $this->nsAdd);        
     }
     
-    public function getCss() {
-        
+    public function getCss()
+    {        
         $debug = $this->debug ? 'debug' : 'nodebug';
         
         return $this->getAssets(array_merge(
             isset($this->css[$this->type][$debug]) ? $this->css[$this->type][$debug] : $this->css[$this->type], 
             isset($this->cssAdd[$debug]) ? $this->cssAdd[$debug] : $this->cssAdd
-        ));
-        
+        ));        
     }
     
-    public function getJs() {
-        
+    public function getJs()
+    {        
         $debug = $this->debug ? 'debug' : 'nodebug';
         
         return $this->getAssets(array_merge(
             $this->js[$this->type][$debug], 
             isset($this->jsAdd[$debug]) ? $this->jsAdd[$debug] : $this->jsAdd
-        ));
-        
+        ));        
     }
     
-    public function getAssets($scripts) {        
-        
-        $assets = [];
-        
-        foreach($scripts as $js) {
-            
-            $asset = $this->asset($js, true);
-            
-            if( !$asset) {
-                
-                continue;
-                
-            }
-            
-            $assets []= $asset;
-            
+    public function getAssets($scripts)
+    {        
+        $assets = [];        
+        foreach($scripts as $js) {            
+            $asset = $this->asset($js, true);            
+            if( !$asset) {                
+                continue;                
+            }            
+            $assets []= $asset;            
         }
         
-        return $assets;
-        
+        return $assets;        
     }
     
 }

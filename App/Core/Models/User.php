@@ -1,4 +1,6 @@
-<?php namespace App\Core\Models;
+<?php
+
+namespace App\Core\Models;
 
 use Melisa\Laravel\Models\UuidForKey;
 use Melisa\Laravel\Models\NoUpdateCreate;
@@ -18,7 +20,7 @@ class User extends Authenticatable
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
     
-    public $incrementing = FALSE;
+    public $incrementing = false;
 
     protected $fillable = [
         'name', 'email', 'password', 'changePassword',
@@ -44,10 +46,8 @@ class User extends Authenticatable
     }
     
     public function usersIdentities()
-    {
-        
-        return $this->hasMany('App\Core\Models\UsersIdentities', 'idUser');
-        
+    {        
+        return $this->hasMany('App\Core\Models\UsersIdentities', 'idUser');        
     }
     
     public function avatars()
