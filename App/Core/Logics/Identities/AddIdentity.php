@@ -1,10 +1,12 @@
-<?php namespace App\Core\Logics\Identities;
+<?php
 
-use \App\Core\Repositories\IdentitiesRepository as Identities;
-use \App\Core\Repositories\UsersIdentitiesRepository as UsersIdenties;
-use \App\Core\Repositories\PeopleRepository as People;
-use \App\Core\Repositories\ProfilesRepository as Profiles;
-use \Melisa\core\LogicBusiness;
+namespace App\Core\Logics\Identities;
+
+use App\Core\Repositories\IdentitiesRepository as Identities;
+use App\Core\Repositories\UsersIdentitiesRepository as UsersIdenties;
+use App\Core\Repositories\PeopleRepository as People;
+use App\Core\Repositories\ProfilesRepository as Profiles;
+use Melisa\core\LogicBusiness;
 
 /**
  * Create identity to user
@@ -21,17 +23,16 @@ class AddIdentity
     protected $profile;
     
     public function __construct(
-            Identities $identities, 
-            UsersIdenties $usersIdentities, 
-            People $people,
-            Profiles $profile
-        ) {
-        
+        Identities $identities, 
+        UsersIdenties $usersIdentities, 
+        People $people,
+        Profiles $profile
+    )
+    {        
         $this->identities = $identities;
         $this->usersIdentities = $usersIdentities;
         $this->people = $people;
-        $this->profile = $profile;
-        
+        $this->profile = $profile;        
     }
     
     /**
@@ -39,123 +40,99 @@ class AddIdentity
      * @param array $input
      * @return mixed Boolean | String Id Identity
      */
-    public function init($idUser, array $input, $profileKey = 'personal', $createPerson = false) {
+    public function init($idUser, array $input, $profileKey = 'personal', $createPerson = false)
+    {
         
         $this->identities->beginTransaction();
         
-        if( !$idProfile = $this->getProfile($profileKey)) {
-            
-            return false;
-            
+        if( !$idProfile = $this->getProfile($profileKey)) {            
+            return false;            
         }
         
-        if( !$idIdentity = $this->createIdentity($idProfile, $input)) {
-            
-            return false;
-            
+        if( !$idIdentity = $this->createIdentity($idProfile, $input)) {            
+            return false;            
         }       
         
-        if( !$idUserIdentity = $this->createUserIdentity($idUser, $idIdentity)) {
-            
-            return false;
-            
+        if( !$idUserIdentity = $this->createUserIdentity($idUser, $idIdentity)) {            
+            return false;            
         }
         
-        if( $createPerson && !$idPeople = $this->createPeople($input)) {
-            
-            return false;
-            
+        if( $createPerson && !$idPeople = $this->createPeople($input)) {            
+            return false;            
         }
         
-        if( $createPerson) {
-            
+        if( $createPerson) {            
             return [
                 'idIdentity'=>$idIdentity,
                 'idUserIdentity'=>$idUserIdentity,
                 'idPeople'=>$idPeople,
-            ];
-            
+            ];            
         }
         
         return [
             'idIdentity'=>$idIdentity,
             'idUserIdentity'=>$idUserIdentity,
-        ];
-        
+        ];        
     }
     
-    public function rollback() {
-        
-        $this->identities->rollback();
-        
+    public function rollback()
+    {        
+        $this->identities->rollback();        
     }
     
-    public function commit() {
-        
-        $this->identities->commit();
-        
+    public function commit()
+    {        
+        $this->identities->commit();        
     }
     
-    public function getProfile($key) {
-        
+    public function getProfile($key)
+    {        
         $profile = $this->profile->findBy('key', $key, ['id']);
         
-        if( !$profile) {
-            
+        if( !$profile) {            
             return $this->error('The profile type {k} no exist', [
                 'k'=>$key
-            ]);
-            
+            ]);            
         }
         
-        return $profile->id;
-        
+        return $profile->id;        
     }
     
-    public function createPeople(&$input) {
-        
+    public function createPeople(&$input)
+    {        
         $people = $this->people->create($input);
         
-        if( !$people) {
-            
-            return $this->error('Imposible create personal data');
-            
+        if( !$people) {            
+            return $this->error('Imposible create personal data');            
         }
         
-        return $people;
-        
+        return $people;        
     }
     
-    public function createUserIdentity($idUser, $idIdentity) {
-        
+    public function createUserIdentity($idUser, $idIdentity)
+    {        
         $idUserIdentity = $this->usersIdentities->create([
             'idUser'=>$idUser,
             'idIdentity'=>$idIdentity
         ]);
         
-        if( !$idUserIdentity) {
-            
-            return $this->error('Imposible create link user identity');
-            
+        if( !$idUserIdentity) {            
+            return $this->error('Imposible create link user identity');            
         }
         
-        return $idUserIdentity;
-        
+        return $idUserIdentity;        
     }
     
-    public function createIdentity($idProfile, &$input) {
-        
+    public function createIdentity($idProfile, &$input)
+    {        
         $input ['idProfile']= $idProfile;
         $idIdentity = $this->identities->create($input);
         
-        if( !$idIdentity) {
-            
-            return $this->error('Imposible create identity');
-            
+        if( !$idIdentity) {            
+            return $this->error('Imposible create identity');            
         }
         
-        return $idIdentity;
-        
+        return $idIdentity;        
     }
     
 }

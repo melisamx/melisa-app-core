@@ -1,4 +1,6 @@
-<?php namespace App\Core\Database\Seeds;
+<?php
+
+namespace App\Core\Database\Seeds;
 
 use Melisa\Laravel\Database\InstallSeeder;
 
@@ -11,8 +13,7 @@ class AssetsJsSeeder extends InstallSeeder
 {
     
     public function run()
-    {
-        
+    {        
         $this->installAssetJs('jquery', [
             'name'=>'jQuery',
             'path'=>'/vendor/jquery/jquery-3.1.1.min.js',
@@ -24,8 +25,7 @@ class AssetsJsSeeder extends InstallSeeder
             'name'=>'Waves',
             'path'=>'/vendor/waves/release/waves.min.js',
             'extraParams'=>'androidAsset=inject'
-        ]);
-        
+        ]);        
         
         $this->installAssetJs('momentjs', [
             'name'=>'MomentJs',
@@ -80,8 +80,7 @@ class AssetsJsSeeder extends InstallSeeder
         $this->installAssetJs('vuematerial', [
             'name'=>'Vue Material',
             'path'=>'/vendor/vuematerial/release/vue-material.js',
-        ]);
-        
+        ]);        
     }
     
 }

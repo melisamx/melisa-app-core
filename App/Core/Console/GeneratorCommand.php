@@ -51,7 +51,7 @@ abstract class GeneratorCommand
     {
         $stub = $this->files->get($path);
         return $this->replaceNamespace($stub, $name)
-                ->replaceClass($stub, $name);
+            ->replaceClass($stub, $name);
     }
     
     /**
@@ -64,7 +64,7 @@ abstract class GeneratorCommand
     {
         $stub = $this->files->get($this->getStub());
         return $this->replaceNamespace($stub, $name)
-                ->replaceClass($stub, $name);
+            ->replaceClass($stub, $name);
     }
     
     /**

@@ -1,4 +1,6 @@
-<?php namespace App\Core\Database\Seeds;
+<?php
+
+namespace App\Core\Database\Seeds;
 
 use Melisa\Laravel\Database\InstallSeeder;
 
@@ -11,8 +13,7 @@ class IdentitiesSeeder extends InstallSeeder
 {
     
     public function run()
-    {
-        
+    {        
         $this->installIdentity('Developer', 'system', 'developer', [
             'display'=>'Developer',
             'active'=>true,
@@ -25,8 +26,7 @@ class IdentitiesSeeder extends InstallSeeder
             'active'=>true,
             'isDefault'=>true,
             'isSystem'=>true
-        ]);
-        
+        ]);        
     }
     
 }

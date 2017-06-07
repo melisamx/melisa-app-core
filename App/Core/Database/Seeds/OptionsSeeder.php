@@ -1,4 +1,6 @@
-<?php namespace App\Core\Database\Seeds;
+<?php
+
+namespace App\Core\Database\Seeds;
 
 use Melisa\Laravel\Database\InstallSeeder;
 
@@ -11,15 +13,13 @@ class OptionsSeeder extends InstallSeeder
 {
     
     public function run()
-    {
-                
+    {                
         $this->installOption('option.tbfill', [
             'name'=>'Sencha Component tbfill',
             'iconClassSmall'=>null,
             'iconClassMedium'=>null,
             'iconClassLarge'=>null,
-        ]);
-        
+        ]);        
     }
     
 }

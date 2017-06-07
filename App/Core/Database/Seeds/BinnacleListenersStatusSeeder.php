@@ -1,4 +1,6 @@
-<?php namespace App\Core\Database\Seeds;
+<?php
+
+namespace App\Core\Database\Seeds;
 
 use Melisa\Laravel\Database\InstallSeeder;
 
@@ -11,8 +13,7 @@ class BinnacleListenersStatusSeeder extends InstallSeeder
 {
     
     public function run()
-    {
-                
+    {                
         $this->updateOrCreate('App\Core\Models\BinnacleListenersStatus', [
             [
                 'id'=>1,
@@ -34,8 +35,7 @@ class BinnacleListenersStatusSeeder extends InstallSeeder
                 'id'=>5,
                 'name'=>'Procesado con errores'
             ],
-        ]);
-        
+        ]);        
     }
     
 }

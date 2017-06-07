@@ -1,4 +1,6 @@
-<?php namespace App\Core\Http\Requests;
+<?php
+
+namespace App\Core\Http\Requests;
 
 use Melisa\Laravel\Http\Requests\Generic;
 
@@ -9,6 +11,7 @@ use Melisa\Laravel\Http\Requests\Generic;
  */
 class CreateIdentity extends Generic
 {
+    
     protected $rules = [
         'idUser'=>'required|max:36|exists:users,id',
         'idVehicle'=>'required|max:36',
@@ -23,12 +26,5 @@ class CreateIdentity extends Generic
         'nickname'=>'required|max:75',
         'birthday'=>'sometimes',
     ];
-    
-    public function rules()
-    {
-        
-        return $this->rules;
-        
-    }
     
 }

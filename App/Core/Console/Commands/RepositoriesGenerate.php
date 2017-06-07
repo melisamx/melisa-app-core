@@ -60,21 +60,19 @@ class RepositoriesGenerate extends GeneratorCommand
     
     public function createFiles($tables)
     {        
-        $flag = true;        
         foreach($tables as $table) {
             
             $flag = $this->createFileRepositorie($table);
             
             if( !$flag) {
-                $this->error('Imposible create file Class repositorie {t}', [
+                return $this->error('Imposible create file Class repositorie {t}', [
                     't'=>$table
                 ]);
-                break;
             }
             
         }
         
-        return $flag;        
+        return true;        
     }
     
     public function createFileRepositorie($table)

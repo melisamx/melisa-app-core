@@ -1,4 +1,6 @@
-<?php namespace App\Core\Database\Seeds;
+<?php
+
+namespace App\Core\Database\Seeds;
 
 use Melisa\Laravel\Database\InstallSeeder;
 
@@ -11,8 +13,7 @@ class DatabaseSeeder extends InstallSeeder
 {
     
     public function run()
-    {
-               
+    {               
         $this->call(ProfilesSeeder::class);
         $this->call(UsersSeeder::class);
         $this->call(IdentitiesSeeder::class);
@@ -20,8 +21,7 @@ class DatabaseSeeder extends InstallSeeder
         $this->call(PackageAssetsSeeder::class);
         $this->call(TranslationsLanguagesSeeder::class);
         $this->call(BinnacleStatusSeeder::class);
-        $this->call(BinnacleListenersStatusSeeder::class);
-        
+        $this->call(BinnacleListenersStatusSeeder::class);        
     }
     
 }

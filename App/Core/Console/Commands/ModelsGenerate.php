@@ -300,7 +300,6 @@ class ModelsGenerate extends GeneratorCommand
         return __DIR__.'/../stubs/modelsX.stub';        
     }
 
-
     public function getFieldMetadata(&$connection, $table)
     {        
         $prefix = $connection->getConfig('prefix');

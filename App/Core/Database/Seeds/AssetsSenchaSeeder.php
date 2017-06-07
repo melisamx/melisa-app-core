@@ -1,4 +1,6 @@
-<?php namespace App\Core\Database\Seeds;
+<?php
+
+namespace App\Core\Database\Seeds;
 
 use Melisa\Laravel\Database\InstallSeeder;
 
@@ -11,8 +13,7 @@ class AssetsSenchaSeeder extends InstallSeeder
 {
     
     public function run()
-    {
-        
+    {        
         $this->installAssetJs('extjs.601.js', [
             'name'=>'Sencha ExtJS 6 all',
             'path'=>'vendor/sencha/6.0.1/ext-all.js',
@@ -173,8 +174,7 @@ class AssetsSenchaSeeder extends InstallSeeder
             'name'=>'Sencha ExtJS 6.2 all css',
             'path'=>'/vendor/sencha/6.2.0.981/sencha-classic-triton.css',
             'extraParams'=>'androidAsset=inject'
-        ]);
-        
+        ]);        
     }
     
 }

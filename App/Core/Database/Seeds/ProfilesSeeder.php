@@ -1,4 +1,6 @@
-<?php namespace App\Core\Database\Seeds;
+<?php
+
+namespace App\Core\Database\Seeds;
 
 use Melisa\Laravel\Database\InstallSeeder;
 
@@ -11,14 +13,12 @@ class ProfilesSeeder extends InstallSeeder
 {
     
     public function run()
-    {
-                
+    {                
         $this->installProfile('system', [
             'name'=>'System',
             'isSystem'=>true,
             'icon'=>'fa fa-superpowers',
-        ]);
-        
+        ]);        
     }
     
 }

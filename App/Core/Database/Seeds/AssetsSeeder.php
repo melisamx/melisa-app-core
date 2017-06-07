@@ -1,4 +1,6 @@
-<?php namespace App\Core\Database\Seeds;
+<?php
+
+namespace App\Core\Database\Seeds;
 
 use Melisa\Laravel\Database\InstallSeeder;
 
@@ -11,8 +13,7 @@ class AssetsSeeder extends InstallSeeder
 {
     
     public function run()
-    {
-        
+    {        
         $this->call(AssetsTypeSeeder::class);
         
         $this->installAssetImage('powerby.image', [
@@ -22,8 +23,7 @@ class AssetsSeeder extends InstallSeeder
         
         $this->call(AssetsSenchaSeeder::class);
         $this->call(AssetsCssSeeder::class);
-        $this->call(AssetsJsSeeder::class);
-        
+        $this->call(AssetsJsSeeder::class);        
     }
     
 }

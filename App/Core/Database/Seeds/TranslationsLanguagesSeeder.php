@@ -1,4 +1,6 @@
-<?php namespace App\Core\Database\Seeds;
+<?php
+
+namespace App\Core\Database\Seeds;
 
 use Melisa\Laravel\Database\InstallSeeder;
 
@@ -11,12 +13,10 @@ class TranslationsLanguagesSeeder extends InstallSeeder
 {
     
     public function run()
-    {
-                
+    {                
         $this->installTranslationLanguage('es', [
             'name'=>'Spanish',
-        ]);
-        
+        ]);        
     }
     
 }

@@ -1,4 +1,6 @@
-<?php namespace App\Core\Http\Controllers;
+<?php
+
+namespace App\Core\Http\Controllers;
 
 use Melisa\Laravel\Http\Controllers\Controller;
 use App\Core\Logics\Sencha\File;
@@ -11,8 +13,8 @@ use App\Core\Logics\Sencha\File;
 class SenchaController extends Controller
 {
     
-    public function file(File $view, $version, $path) {
-        
+    public function file(File $view, $version, $path)
+    {        
         /* 30 dias */
         $expireTime = 2592000;
         $expiration = time() + $expireTime;
@@ -22,8 +24,7 @@ class SenchaController extends Controller
                 'Content-Type'=>'application/javascript',
                 'Expires'=>gmdate('D, d M Y H:i:s', $expiration) . ' GMT',
                 'Cache-control'=>' max-age=' . $expireTime . ', public'
-            ]);
-        
+            ]);        
     }
     
 }

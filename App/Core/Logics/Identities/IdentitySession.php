@@ -1,4 +1,6 @@
-<?php namespace App\Core\Logics\Identities;
+<?php
+
+namespace App\Core\Logics\Identities;
 
 use App\Core\Repositories\IdentitiesRepository;
 use Melisa\core\LogicBusiness;
@@ -15,50 +17,44 @@ class IdentitySession
     protected $identities;
     public $a = 1;
 
-    public function __construct(IdentitiesRepository $identities) {
-        
-        $this->identities = $identities;
-        
+    public function __construct(
+        IdentitiesRepository $identities
+    )
+    {        
+        $this->identities = $identities;        
     }
     
-    public function init($idUser) {
-        
+    public function init($idUser)
+    {        
         $idIdentity = session('idIdentity');
         
-        if( $idIdentity) {
-            
-            return $idIdentity;
-            
+        if( $idIdentity) {            
+            return $idIdentity;            
         }
         
         $defaultIdentity = $this->getSearchDefault($idUser);
         
-        if( !$defaultIdentity) {
-            
-            return false;
-            
+        if( !$defaultIdentity) {            
+            return false;            
         }
         
         $this->saveInSession($defaultIdentity->id);
         
-        return $defaultIdentity->id;
-        
+        return $defaultIdentity->id;        
     }
     
-    public function saveInSession($idIdentity) {
-        
+    public function saveInSession($idIdentity)
+    {        
         session([
             'idIdentity'=>$idIdentity
-        ]);
-        
+        ]);        
     }
     
-    public function getSearchDefault($idUser) {
-        
+    public function getSearchDefault($idUser)
+    {        
         return app()
             ->make('App\Core\Logics\Identities\SearchDefault')
-            ->init($idUser);
-        
+            ->init($idUser);        
     }
     
 }

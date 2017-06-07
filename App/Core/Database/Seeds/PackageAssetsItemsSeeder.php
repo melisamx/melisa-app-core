@@ -1,4 +1,6 @@
-<?php namespace App\Core\Database\Seeds;
+<?php
+
+namespace App\Core\Database\Seeds;
 
 use Melisa\Laravel\Database\InstallSeeder;
 
@@ -11,8 +13,7 @@ class PackageAssetsItemsSeeder extends InstallSeeder
 {
     
     public function run()
-    {
-        
+    {        
         $this->updateOrCreate('App\Core\Models\PackageAssetsItems', [
             [
                 'idPackageAsset'=>'sencha.app',
@@ -58,8 +59,7 @@ class PackageAssetsItemsSeeder extends InstallSeeder
                 'idPackageAsset'=>'sencha.app',
                 'idAsset'=>'extjs.601.charts.css',
             ],
-        ]);
-        
+        ]);        
     }
     
 }

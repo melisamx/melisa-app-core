@@ -1,4 +1,6 @@
-<?php namespace App\Core\Database\Seeds;
+<?php
+
+namespace App\Core\Database\Seeds;
 
 use Melisa\Laravel\Database\InstallSeeder;
 
@@ -11,17 +13,15 @@ class UsersSeeder extends InstallSeeder
 {
     
     public function run()
-    {
-                
-        $this->installUser('developer', 'Dlemdo30$', [
+    {                
+        $this->installUser('developer', env('USER_PASSWORD', 'developer'), [
             'email'=>'developer@melisa.mx',
             'isGod'=>true
         ]);
                 
-        $this->installUser('demo', 'Godlemb03fmaj', [
+        $this->installUser('demo', env('USER_PASSWORD', 'demo'), [
             'email'=>'demo@melisa.mx',
-        ]);
-        
+        ]);        
     }
     
 }

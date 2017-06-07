@@ -22,7 +22,10 @@ class LoginSuccessListener implements EventBinnacle
     protected $register;
     protected $identity;
 
-    public function __construct(RegisterEvent $register, IdentitySession $identity)
+    public function __construct(
+        RegisterEvent $register,
+        IdentitySession $identity
+    )
     {        
         $this->register = $register;
         $this->identity = $identity;                

@@ -1,4 +1,6 @@
-<?php namespace App\Core\Database\Seeds;
+<?php
+
+namespace App\Core\Database\Seeds;
 
 use Melisa\Laravel\Database\InstallSeeder;
 
@@ -11,8 +13,7 @@ class AssetsCssSeeder extends InstallSeeder
 {
     
     public function run()
-    {
-        
+    {        
         $this->installAssetCss('fontawesome', [
             'name'=>'Fontawesome',
             'path'=>'/vendor/fontawesome/release/css/font-awesome.min.css',
@@ -58,8 +59,7 @@ class AssetsCssSeeder extends InstallSeeder
         $this->installAssetCss('vuematerial.css', [
             'name'=>'Vue Material CSS',
             'path'=>'/vendor/vuematerial/release/vue-material.css',
-        ]);
-        
+        ]);        
     }
     
 }
