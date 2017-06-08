@@ -5,5 +5,5 @@ Route::get('sencha/{version}/{path}', 'SenchaController@file')->where([
     'path'=>'(.*)'
 ]);
 
-Route::get('menus/{key}', 'MenusController@hierarchical');
-Route::get('menus/{key}/records', 'MenusController@records');
+Route::get('menus/{key}', 'MenusController@hierarchical')->middleware('auth');
+Route::get('menus/{key}/records', 'MenusController@records')->middleware('auth');
