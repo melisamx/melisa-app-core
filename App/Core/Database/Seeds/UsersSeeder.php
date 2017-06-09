@@ -14,13 +14,15 @@ class UsersSeeder extends InstallSeeder
     
     public function run()
     {                
-        $this->installUser('developer', env('USER_PASSWORD', 'developer'), [
+        $this->installUser('developer', env('USER_DEVELOPER_PASSWORD', 'developer'), [
             'email'=>'developer@melisa.mx',
-            'isGod'=>true
+            'isGod'=>true,
+            'active'=>true
         ]);
                 
-        $this->installUser('demo', env('USER_PASSWORD', 'demo'), [
+        $this->installUser('demo', env('USER_DEMO_PASSWORD', 'demo'), [
             'email'=>'demo@melisa.mx',
+            'active'=>true
         ]);        
     }
     
