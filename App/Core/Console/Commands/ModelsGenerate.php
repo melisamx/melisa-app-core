@@ -145,7 +145,7 @@ class ModelsGenerate extends GeneratorCommand
             if( empty($fields)) {    
                 continue;                
             }            
-            $struct [$table]= $this->prepareConfig($fields);            
+            $struct [$table]= $this->prepareConfig($fields);
         }
         
         return $struct;        

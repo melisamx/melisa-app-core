@@ -1,4 +1,6 @@
-<?php namespace DummyNamespace;
+<?php
+
+namespace DummyNamespace;
 
 use Melisa\Repositories\Eloquent\Repository;
 
@@ -9,10 +11,9 @@ use Melisa\Repositories\Eloquent\Repository;
 class DummyClass extends Repository
 {
     
-    public function model() {
-        
-        return 'DummyModelNameSpace\DummyClassModel';
-        
+    public function model()
+    {        
+        return 'DummyModelNameSpace\DummyClassModel';        
     }
     
 }
