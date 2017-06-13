@@ -17,12 +17,14 @@ class UsersSeeder extends InstallSeeder
         $this->installUser('developer', env('USER_DEVELOPER_PASSWORD', 'developer'), [
             'email'=>'developer@melisa.mx',
             'isGod'=>true,
-            'active'=>true
+            'active'=>true,
+            'isSystem'=>true,
         ]);
                 
         $this->installUser('demo', env('USER_DEMO_PASSWORD', 'demo'), [
             'email'=>'demo@melisa.mx',
-            'active'=>true
+            'active'=>true,
+            'isSystem'=>true,
         ]);        
     }
     
