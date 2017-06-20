@@ -1,4 +1,6 @@
-<?php namespace App\Core\Logics\Modules;
+<?php
+
+namespace App\Core\Logics\Modules;
 
 use Melisa\core\LogicBusiness;
 use App\Core\Repositories\ModulesRepository;
@@ -43,8 +45,8 @@ class Install
         EventsRepository $events,
         ListenersRepository $listeners,
         GatesRepository $gates
-    ) {
-        
+    )
+    {        
         $this->modules = $modules;
         $this->tasks = $tasks;
         $this->options = $options;
@@ -54,12 +56,11 @@ class Install
         $this->modulesTasks = $modulesTasks;
         $this->events = $events;
         $this->listeners = $listeners;
-        $this->gates = $gates;
-        
+        $this->gates = $gates;        
     }
     
-    public function init($configsModules) {
-        
+    public function init($configsModules)
+    {        
         $this->modules->beginTransaction();
         $flag = true;
         
@@ -71,32 +72,26 @@ class Install
             
             $idModule = $this->createModule($configModule);
             
-            if( !$idModule) {
-                
+            if( !$idModule) {                
                 $flag = false;
-                break;
-                
+                break;                
             }
             
             $idTask = $this->createTask($configModule['url'], $configModule['task']);
             
-            if( !$idTask) {
-                
+            if( !$idTask) {                
                 $flag = false;
-                break;
-                
+                break;                
             }
             
             $result = $this->createModuleTask($idModule, $idTask);
             
-            if( !$result) {
-                
+            if( !$result) {                
                 $flag = $this->error('Imposible create or update module task {m} - {t}', [
                     'm'=>$configModule['name'],
                     't'=>$configModule['task']['name']
                 ]);
-                break;
-                
+                break;                
             }
             
             if ( isset($configModule['event'])) {                
@@ -115,29 +110,21 @@ class Install
                 $this->createListeners($idModule, $configModule['listeners']);                
             }
             
-            if ( isset($configModule['gate'])) {
-                
-                $iGate = $this->createGate($configModule['gate']);
-                
+            if ( isset($configModule['gate'])) {                
+                $iGate = $this->createGate($configModule['gate']);                
             } else {
-                
-                $iGate = $this->createGate($configModule['task']);
-                
+                $iGate = $this->createGate($configModule['task']);                
             }
             
             $idOption = $this->createOption($configModule['url'], $configModule['option']);
             
-            if( !$idOption) {
-                
+            if( !$idOption) {                
                 $flag = false;
-                break;
-                
+                break;                
             }
             
-            if( $idOption === true) {
-                
-                continue;
-                
+            if( $idOption === true) {                
+                continue;                
             }
             
             $this->debug('Create or update task option {o} - {t}', [
@@ -147,76 +134,53 @@ class Install
             
             $result = $this->createOptionTask($idOption, $idTask);
             
-            if( !$result) {
-                
+            if( !$result) {                
                 $flag = $this->error('Imposible create or update task option {o} - {t}', [
                     'o'=>$configModule['option']['name'],
                     't'=>$configModule['task']['name']
                 ]);
-                break;
-                
+                break;                
             }
             
             $result = $this->createMenu($configModule['url'], $configModule['menu']);
             
-            if( !$result) {
-                
+            if( !$result) {                
                 $flag = false;
-                break;
-                
+                break;                
             }
             
         }
         
-        if( !$flag) {
-            
-            return false;
-            
+        if( !$flag) {            
+            return false;            
         }
         
         $this->modules->commit();
         return true;
-        
-        
     }
     
-    public function createMultiMenus($urlModule, &$config) {
-        
-        $flag = true;
-
-        foreach($config as $menu) {
-            
+    public function createMultiMenus($urlModule, &$config)
+    {
+        foreach($config as $menu) {            
             $result = $this->createMenu($urlModule, $menu);
-
             if( $result) {
-
                 continue;
-
             }
-
-            $flag = false;
-            break;
-
-
+            return false;
         }
 
-        return $flag;
-        
+        return true;        
     }
     
-    public function createMenu($urlModule, &$config) {
-        
+    public function createMenu($urlModule, &$config)
+    {        
         /* optional define menu */
-        if( empty($config)) {
-            
-            return true;
-            
+        if( empty($config)) {            
+            return true;            
         }
         
-        if( isset($config[0])) {
-            
-            return $this->createMultiMenus($urlModule, $config);
-            
+        if( isset($config[0])) {            
+            return $this->createMultiMenus($urlModule, $config);            
         }
         
         $keyMenu = isset($config['key']) ? $config['key'] : $urlModule;
@@ -227,24 +191,21 @@ class Install
             'name'=>$config['name'],
         ]);
         
-        if( !$menu) {
-            
+        if( !$menu) {            
             return $this->error('Imposible create or update menu {n}', [
                 'n'=>$keyMenu
-            ]);
-            
+            ]);            
         }
         
         $buildMenu = [
             $keyMenu=>$config['options']
         ];
         
-        return $this->menusInstall->init($buildMenu);
-        
+        return $this->menusInstall->init($buildMenu);        
     }
     
-    public function createModule(&$config) {
-        
+    public function createModule(&$config)
+    {        
         $this->debug('Create or update module {m}', [
             'm'=>$config['name']
         ]);
@@ -276,30 +237,25 @@ class Install
             
         }
         
-        return $module->id;
-        
+        return $module->id;        
     }
     
-    public function createOptionTask($idOption, $idTask) {
-        
+    public function createOptionTask($idOption, $idTask)
+    {        
         $taskOption = $this->optionsTasks->updateOrCreate([
             'idOption'=>$idOption,
             'idTask'=>$idTask,
         ], []);
         
-        if( !$taskOption) {
-            
-            return false;
-            
+        if( !$taskOption) {            
+            return false;            
         }
         
-        return $taskOption->id;
-        
+        return $taskOption->id;        
     }
     
     public function createGate($gateConfig)
-    {
-        
+    {        
         $this->debug('Create or update gate {g}', [
             'g'=>$gateConfig['key']
         ]);
@@ -312,19 +268,15 @@ class Install
                 $gateConfig['active'] : true
         ]);
         
-        if( !$gate) {
-            
-            return false;
-            
+        if( !$gate) {            
+            return false;            
         }
         
-        return $gate->id;
-        
+        return $gate->id;        
     }
     
     public function createListeners($idModule, array &$listeners)
-    {
-        
+    {        
         $this->debug('Init create {l} listeners', [
             'l'=>count($listeners)
         ]);
@@ -335,40 +287,33 @@ class Install
             }
         }
         
-        return true;
-        
+        return true;        
     }
     
-    public function createListener($idModule, &$keyListener) {
-        
+    public function createListener($idModule, &$keyListener)
+    {        
         $this->debug('Create or update listener {l}', [
             'l'=>$keyListener
         ]);
         
-        if( is_string($keyListener)) {
-            
+        if( is_string($keyListener)) {            
             $keyListener = [
                 'event'=>$keyListener,
                 'active'=>true,
-            ];
-            
+            ];            
         }
         
         $event = $this->events->findBy('key', $keyListener['event']);
         
-        if( !$event) {
-            
-            return false;
-            
+        if( !$event) {            
+            return false;            
         }
         
-        if( is_null($event)) {
-            
+        if( is_null($event)) {            
             $this->debug('No exist event {e} ignore install listener', [
                 'e'=>$keyListener['event']
             ]);
-            return true;
-            
+            return true;            
         }
         
         $listener = $this->listeners->updateOrCreate([
@@ -378,19 +323,15 @@ class Install
             'active'=>$keyListener['active']
         ]);
         
-        if( !$listener) {
-            
-            return false;
-            
+        if( !$listener) {            
+            return false;            
         }
         
-        return $listener->id;
-        
+        return $listener->id;        
     }
     
     public function createEvents(array &$events)
-    {
-        
+    {        
         $this->debug('Init create {e} events', [
             'e'=>count($events)
         ]);
@@ -401,12 +342,11 @@ class Install
             }
         }
         
-        return true;
-        
+        return true;        
     }
     
-    public function createEvent(&$config) {
-        
+    public function createEvent(&$config)
+    {        
         $this->debug('Create or update event {e}', [
             'e'=>$config['key']
         ]);
@@ -418,35 +358,29 @@ class Install
             'isSystem'=>isset($config['isSystem']) ? $config['isSystem'] : false,
         ]);
         
-        if( !$record) {
-            
-            return false;
-            
+        if( !$record) {            
+            return false;            
         }
         
-        return $record->id;
-        
+        return $record->id;        
     }
     
-    public function createModuleTask($idModule, $idTask) {
-        
+    public function createModuleTask($idModule, $idTask)
+    {        
         $record = $this->modulesTasks->updateOrCreate([
             'idModule'=>$idModule,
             'idTask'=>$idTask,
         ], []);
         
-        if( !$record) {
-            
-            return false;
-            
+        if( !$record) {            
+            return false;            
         }
         
-        return $record->id;
-        
+        return $record->id;        
     }
     
-    public function createTask($urlModule, &$config) {
-        
+    public function createTask($urlModule, &$config)
+    {        
         $this->debug('Create or update task {m}', [
             'm'=>$config['name']
         ]);
@@ -468,25 +402,20 @@ class Install
             'pattern'=>$idPattern,
         ]);
         
-        if( !$task) {
-            
+        if( !$task) {            
             return $this->error('Imposible create or update task {n}', [
                 'n'=>$keyTask
-            ]);
-            
+            ]);            
         }
         
-        return $task->id;
-        
+        return $task->id;        
     }
         
-    public function createOption($urlModule, &$config) {
-        
-        if( is_null($config)) {
-            
+    public function createOption($urlModule, &$config)
+    {        
+        if( is_null($config)) {            
             $this->debug('Option no defined');
-            return true;
-            
+            return true;            
         }
         
         $this->debug('Create or update option {o}', [
@@ -510,20 +439,17 @@ class Install
                 $config['iconClassLarge'] : 'fa fa-cog fa-5x',
         ]);
         
-        if( !$option) {
-            
+        if( !$option) {            
             return $this->error('Imposible create or update task {n}', [
                 'n'=>$keyOption
-            ]);
-            
+            ]);            
         }
         
-        return $option->id;
-        
+        return $option->id;        
     }
     
-    public function getPattern($key) {
-        
+    public function getPattern($key)
+    {        
         return array_search($key, [
             'all',
             'all.crud',
@@ -540,8 +466,7 @@ class Install
             'select',
             'service',
             'library'
-        ]);
-        
+        ]);        
     }
     
 }

@@ -1,4 +1,6 @@
-<?php namespace App\Core\Logics\Menus;
+<?php
+
+namespace App\Core\Logics\Menus;
 
 use App\Core\Repositories\MenusRepository;
 use App\Core\Repositories\MenusOptionsRepository;
@@ -19,45 +21,37 @@ class Install
     protected $menusOptions;
 
     public function __construct(
-            MenusRepository $menus, 
-            OptionsRepository $options, 
-            MenusOptionsRepository $menusOptions) {
-        
+        MenusRepository $menus, 
+        OptionsRepository $options, 
+        MenusOptionsRepository $menusOptions
+    )
+    {        
         $this->menus = $menus;
         $this->options = $options;
-        $this->menusOptions = $menusOptions;
-        
+        $this->menusOptions = $menusOptions;        
     }
     
-    public function init(array $menuConfig = []) {
-        
-        $flag = true;
-        
+    public function init(array $menuConfig = [])
+    {
         foreach($menuConfig as $menuKey => $options) {
                         
             $idMenu = $this->getId($menuKey);
             
-            if( !$idMenu) {
-                
-                continue;
-                
+            if( !$idMenu) {                
+                continue;                
             }
 
-            if( !$this->findOptions($idMenu, $options)) {
-                
-                $flag = false;
-                break;
-                
+            if( !$this->findOptions($idMenu, $options)) {                
+                return false;                
             }
             
         }
         
-        return $flag;
-        
+        return true;        
     }
     
-    public function findOptions($idMenu, $options, $idOptionParent = null) {
-        
+    public function findOptions($idMenu, $options, $idOptionParent = null)
+    {        
         $flag = true;
         $order = -1;
         
@@ -71,51 +65,38 @@ class Install
             $idOption = $this->getId($optionKey, 'options');
             
             if( !$idOption) {
-
                 continue;
-
             }
             
             $idMenuOption = $this->createMenuOption($idMenu, $idOption, $order, $idOptionParent);
             
-            if( !$idMenuOption) {
-                
+            if( !$idMenuOption) {                
                 $flag = false;
                 break;
-
             }
             
-            if( is_string($option)) {
-                
-                continue;
-                
+            if( is_string($option)) {                
+                continue;                
             }
             
-            if( !$this->findOptions($idMenu, $option, $idMenuOption)) {
-                
+            if( !$this->findOptions($idMenu, $option, $idMenuOption)) {                
                 $flag = false;
-                break;
-                
+                break;                
             }
 
         }
         
-        if( $flag) {
-            
-            $this->menusOptions->commit();
-            
-        } else {
-            
-            $this->menusOptions->rollBack();
-                    
+        if( $flag) {            
+            $this->menusOptions->commit();            
+        } else {            
+            $this->menusOptions->rollBack();                    
         }
         
-        return $flag;
-        
+        return $flag;        
     }
     
-    public function createMenuOption($idMenu, $idOption, $order = 0, $idOptionParent = null) {
-        
+    public function createMenuOption($idMenu, $idOption, $order = 0, $idOptionParent = null)
+    {        
         $menuOption = $this->menusOptions->updateOrCreate([
             'idMenu'=>$idMenu,
             'idOption'=>$idOption,
@@ -124,31 +105,25 @@ class Install
             'order'=>$order,
         ]);
         
-        if( !$menuOption) {
-            
-            return $this->error('Imposible create menu option');
-            
+        if( !$menuOption) {            
+            return $this->error('Imposible create menu option');            
         }
         
-        return $menuOption->id;
-        
+        return $menuOption->id;        
     }
     
-    public function getId($key, $repository = 'menus') {
-        
+    public function getId($key, $repository = 'menus')
+    {        
         $object = $this->{$repository}->findBy('key', $key, [ 'id' ]);
         
-        if( !$object) {
-            
+        if( !$object) {            
             return $this->error('No exist {r} {m}', [
                 'r'=>$repository,
                 'm'=>$key
-            ]);
-            
+            ]);            
         }
         
-        return $object->id;
-        
+        return $object->id;        
     }
     
 }

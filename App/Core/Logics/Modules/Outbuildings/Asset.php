@@ -1,4 +1,6 @@
-<?php namespace App\Core\Logics\Modules\Outbuildings;
+<?php
+
+namespace App\Core\Logics\Modules\Outbuildings;
 
 use Melisa\core\LogicBusiness;
 use App\Core\Repositories\AssetsRepository;
@@ -13,27 +15,25 @@ class Asset
 {
     use LogicBusiness;
     
-    public function __construct(AssetsRepository $assets, ApplicationsRepository $application) {
-        
+    public function __construct(
+        AssetsRepository $assets,
+        ApplicationsRepository $application
+    )
+    {        
         $this->assetsrepository = $assets;
         $this->application = $application->findBy('key', config('app.keyapp'));
         $this->nocache = config('app.env') === 'local' ? time() : '';
         $this->urlServer = config('app.url');
         
-        if( !melisa('string')->endsWith($this->urlServer, '/')) {
-            
-            $this->urlServer .= '/';
-            
-        }
-        
+        if( !melisa('string')->endsWith($this->urlServer, '/')) {            
+            $this->urlServer .= '/';            
+        }        
     }
     
-    public function get($keys = [], $onlyUrl = false) {
-        
-        if( is_string($keys)) {
-            
-            $keys = [ $keys ];
-            
+    public function get($keys = [], $onlyUrl = false)
+    {        
+        if( is_string($keys)) {            
+            $keys = [ $keys ];            
         }
         
         $this->debug('loading {c} assets: {i}', [
@@ -42,54 +42,41 @@ class Asset
         ]);
         
         $assets = [];
-        $flag = true;
-        
+        $flag = true;        
         foreach($keys as $key) {
             
-            $asset = $this->load($key);
-            
-            if( $asset) {
-                
+            $asset = $this->load($key);            
+            if( $asset) {                
                 $assets [$key]= $asset;
-                continue;
-                
+                continue;                
             }
             
             $flag = false;
-            break;
-            
+            break;            
         }
         
-        if( !$flag) {
-            
-            return null;
-            
+        if( !$flag) {            
+            return null;            
         }
         
-        if( count($keys) === 1) {
-            
-            return $onlyUrl ? reset($assets)['url'] : reset($assets);
-            
+        if( count($keys) === 1) {            
+            return $onlyUrl ? reset($assets)['url'] : reset($assets);            
         }
         
-        return $onlyUrl ? array_column($assets, 'url') : $assets;
-        
+        return $onlyUrl ? array_column($assets, 'url') : $assets;        
     }
     
-    public function load($key, $data = []) {
-        
+    public function load($key, $data = [])
+    {        
         static $loades = [];
         
-        if( isset($loades[$key])) {
-            
-            return $loades[$key];
-            
+        if( isset($loades[$key])) {            
+            return $loades[$key];            
         }
         
         $asset = $this->assetsrepository->find($key);
             
         if( !$asset) {
-
             $this->info('Imposible get asset {a}, using direct key', [
                 'a'=>$key
             ]);
@@ -98,7 +85,6 @@ class Asset
             return [
                 'url'=>$key
             ];
-
         }
         
         $params = [
@@ -110,34 +96,22 @@ class Asset
         $queryString = http_build_query($params);
 
         if( !empty($asset->extraParams)) {
-
             $queryString .= '&' . $asset->extraParams;
-
         }
         
         /* request external */
-        if( melisa('string')->startsWith($asset->path, '//')) {
-            
-            $urlServer = $asset->path;
-            
-        } else if( melisa('string')->startsWith($asset->path, '/')) {
-            
-            $urlServer = $this->urlServer . substr($asset->path, 1);
-            
-        } else {
-            
-            $urlServer = $this->urlServer . $asset->path;
-            
+        if( melisa('string')->startsWith($asset->path, '//')) {            
+            $urlServer = $asset->path;            
+        } else if( melisa('string')->startsWith($asset->path, '/')) {            
+            $urlServer = $this->urlServer . substr($asset->path, 1);            
+        } else {            
+            $urlServer = $this->urlServer . $asset->path;            
         }
         
         if (strpos($urlServer, '?')) {
-
             $urlServer .= '&' . $queryString;
-
         } else {
-
             $urlServer .= '?' . $queryString;
-
         }
         
         $loades [$key]= [
@@ -146,8 +120,7 @@ class Asset
             'url'=>$urlServer
         ];
 
-        return $loades [$key];
-        
+        return $loades [$key];        
     }
     
 }

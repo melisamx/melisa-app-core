@@ -1,4 +1,6 @@
-<?php namespace App\Core\Logics\Menus;
+<?php
+
+namespace App\Core\Logics\Menus;
 
 use Melisa\core\LogicBusiness;
 use App\Core\Repositories\MenusOptionsRepository;
@@ -14,14 +16,13 @@ class Hierarchical
     
     protected $menus;
 
-    public function __construct(MenusOptionsRepository $menus) {
-        
-        $this->menus = $menus;
-        
+    public function __construct(MenusOptionsRepository $menus)
+    {        
+        $this->menus = $menus;        
     }
     
-    public function get($key) {
-        
+    public function get($key)
+    {        
         if( substr($key, 0, 4) !== 'menu') {            
             $key = 'menu.' . $key;            
         }
@@ -36,13 +37,11 @@ class Hierarchical
         
         $this->filterOnlyAllowed($menu);
         
-        return $this->generate($menu);
-        
+        return $this->generate($menu);        
     }
     
     public function filterOnlyAllowed(&$menu)
-    {
-        
+    {        
         foreach($menu as $option) {
             
             if( !isset($option->taskKey)) {
@@ -51,13 +50,11 @@ class Hierarchical
             
             $option->allowed = $this->isAllowed($option->taskKey);
             
-        }
-        
+        }        
     }
     
     public function generate(&$menu)
-    {
-        
+    {        
         $menuHierarchical = [];
         
         foreach($menu as $option) {
@@ -66,13 +63,11 @@ class Hierarchical
                 continue;                
             }
             
-            if( $option->optionKey === 'tbfill') {
-                
+            if( $option->optionKey === 'tbfill') {                
                 $menuHierarchical []= [
                     'type'=>'tbfill'
                 ];
-                continue;
-                
+                continue;                
             }
             
             if( isset($option->allowed) && !$option->allowed) {
@@ -85,12 +80,11 @@ class Hierarchical
                         
         }
         
-        return $menuHierarchical;
-        
+        return $menuHierarchical;        
     }
     
-    public function getOptionsChildren(&$menu, $idOptionParent) {
-        
+    public function getOptionsChildren(&$menu, $idOptionParent)
+    {        
         $options = [];
         
         foreach($menu as $option) {
@@ -105,12 +99,11 @@ class Hierarchical
             
         }
         
-        return $options;
-        
+        return $options;        
     }
     
-    public function buildSubMenu(&$subOptions, &$option) {
-        
+    public function buildSubMenu(&$subOptions, &$option)
+    {        
         $configOption = [
             'key'=>$option->optionKey,
             'text'=>$option->optionText,
@@ -134,8 +127,7 @@ class Hierarchical
         
         $configOption ['items']= $subOptions;
         
-        return $configOption;
-        
+        return $configOption;        
     }
     
 }

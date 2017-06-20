@@ -1,4 +1,6 @@
-<?php namespace App\Core\Logics\Redirects;
+<?php
+
+namespace App\Core\Logics\Redirects;
 
 use Melisa\core\LogicBusiness;
 use App\Core\Repositories\RedirectsRepository;
@@ -21,139 +23,111 @@ class Redirects
         'redirectsProfiles'=>'App\Core\Repositories\RedirectsProfilesRepository',
     ];
 
-    public function __construct(RedirectsRepository $redirects) {
-        
-        $this->redirects = $redirects;
-        
+    public function __construct(RedirectsRepository $redirects)
+    {        
+        $this->redirects = $redirects;        
     }
     
-    public function init($idUser = null) {
-        
+    public function init($idUser = null)
+    {        
         $this->debug('Init logic redirect');
         
-        if( !$redirects = $this->getRedirectsActives()) {
-            
-            return true;
-            
+        if( !$redirects = $this->getRedirectsActives()) {            
+            return true;            
         }
                 
-        if( !$identity = $this->getIdentity($idUser)) {
-            
-            return false;
-            
+        if( !$identity = $this->getIdentity($idUser)) {            
+            return false;            
         }
         
-        return $this->processRedirects($identity, $redirects);
-        
+        return $this->processRedirects($identity, $redirects);        
     }
     
-    public function getIdentity($idUser) {
-        
+    public function getIdentity($idUser)
+    {        
         $idIdentity = $this->make('identitySession')->init($idUser);
         
-        if( !$idIdentity) {
-            
-            return false;
-            
+        if( !$idIdentity) {            
+            return false;            
         }
         
         $identity = $this->make('identities')->find($idIdentity);
         
-        if( !$idIdentity) {
-            
-            return $this->error('Imposible get identity data');
-            
+        if( !$idIdentity) {            
+            return $this->error('Imposible get identity data');            
         }
         
-        return $identity;
-        
+        return $identity;        
     }
     
-    public function processRedirects(&$identity, &$redirects) {
-        
+    public function processRedirects(&$identity, &$redirects)
+    {        
         $flag = true;
         $responseRedirect = null;
                 
         foreach($redirects as $redirect) {
             
-            if( !$responseRedirect = $this->getRedirectIdentity($redirect->id, $identity->id)) {
-                
+            if( !$responseRedirect = $this->getRedirectIdentity($redirect->id, $identity->id)) {                
                 $flag = false;
-                break;
-                
+                break;                
             }
             
-            if( $responseRedirect !== true) {
-                
-                break;
-                
+            if( $responseRedirect !== true) {                
+                break;                
             }
             
-            if( !$responseRedirect = $this->getRedirectProfile($redirect, $identity->idProfile)) {
-                
+            $responseRedirect = $this->getRedirectProfile($redirect, $identity->idProfile);
+                    
+            if( !$responseRedirect) {                
                 $flag = false;
-                break;
-                
+                break;                
             }
             
-            if( $responseRedirect !== true) {
-                
-                break;
-                
+            if( $responseRedirect !== true) {                
+                break;                
             }
             
         }
         
-        return $flag ? $responseRedirect : false;
-        
+        return $flag ? $responseRedirect : false;        
     }
     
-    public function getRedirectProfile(&$redirect, $idProfile) {
-        
+    public function getRedirectProfile(&$redirect, $idProfile)
+    {        
         $redirects = $this->make('redirectsProfiles')->findWhere([
             'idRedirect'=>$redirect->id,
             'idProfile'=>$idProfile,
             'active'=>true
         ]);
         
-        if( !$redirects->count()) {
-            
-            return true;
-            
+        if( !$redirects->count()) {            
+            return true;            
         }
         
         $redirecProfile = $redirects->first();
         
-        return $this->isValidRedirect($redirecProfile, $redirect);
-        
+        return $this->isValidRedirect($redirecProfile, $redirect);        
     }
     
-    public function isValidRedirect(&$redirectAction, &$redirect) {
-        
-        if( $redirectAction === false) {
-                
+    public function isValidRedirect(&$redirectAction, &$redirect)
+    {        
+        if( $redirectAction === false) {                
             return false;
-
         }
 
         if( $redirectAction === true) {
-
             return true;
-
         }
         
-        if( !$application = $redirect->application) {
-            
-            return false;
-            
+        if( !$application = $redirect->application) {            
+            return false;            
         }
         
-        return $this->getRedirectResponse($application->key, $redirect->path);
-        
+        return $this->getRedirectResponse($application->key, $redirect->path);        
     }
     
-    public function getRedirectIdentity($idRedirect, $idIdentity) {
-        
+    public function getRedirectIdentity($idRedirect, $idIdentity)
+    {        
         $redirectAction = $this->make('redirectsIdentities')->findWhere([
             'idRedirect'=>$idRedirect,
             'idIdentityRedirect'=>$idIdentity,
@@ -161,17 +135,14 @@ class Redirects
         ]);
         
         if( !$redirectAction->count()) {
-
             return true;
-
         }
         
-        exit(var_dump('redirect identity'));
-        
+        exit(var_dump('redirect identity'));        
     }
     
-    public function getRedirectsActives() {
-        
+    public function getRedirectsActives()
+    {        
         $redirects = $this->redirects->findWhere([
             'active'=>true
         ], ['id', 'idApplication', 'path']);
@@ -183,23 +154,19 @@ class Redirects
             
         }
         
-        return $redirects;
-        
+        return $redirects;        
     }
     
-    public function getRedirectResponse($frontController, $path = '') {
-        
+    public function getRedirectResponse($frontController, $path = '')
+    {        
         $baseUrl = basename(request()->getBaseUrl());
         
-        if( $frontController === str_replace('.php', '', $baseUrl)) {
-            
+        if( $frontController === str_replace('.php', '', $baseUrl)) {            
             $this->info('Not necesary redirect');
-            return true;
-            
+            return true;            
         }
         
-        return redirect("../$frontController.php/" . ($path ? $path : ''));
-        
+        return redirect("../$frontController.php/" . ($path ? $path : ''));        
     }
     
 }

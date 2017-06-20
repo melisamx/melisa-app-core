@@ -1,4 +1,6 @@
-<?php namespace App\Core\Logics\Modules\Outbuildings;
+<?php
+
+namespace App\Core\Logics\Modules\Outbuildings;
 
 use Melisa\core\LogicBusiness;
 use App\Core\Repositories\ModulesRepository;
@@ -15,25 +17,20 @@ class Module
     protected $modules;
     protected $urlServer;
 
-    public function __construct(ModulesRepository $modules) {
-        
+    public function __construct(ModulesRepository $modules)
+    {        
         $this->modules = $modules;
         $this->urlServer = config('app.url');
         
-        if( !melisa('string')->endsWith($this->urlServer, '/')) {
-            
-            $this->urlServer .= '/';
-            
-        }
-        
+        if( !melisa('string')->endsWith($this->urlServer, '/')) {            
+            $this->urlServer .= '/';            
+        }        
     }
     
-    public function get($keys = [], $onlyUrl = true) {
-        
-        if( is_string($keys)) {
-            
-            $keys = [ $keys ];
-            
+    public function get($keys = [], $onlyUrl = true)
+    {        
+        if( is_string($keys)) {            
+            $keys = [ $keys ];            
         }
         
         $this->debug('loading {c} module(s): {i}', [
@@ -42,56 +39,41 @@ class Module
         ]);
         
         $modules = [];
-        $flag = true;
-        
-        foreach($keys as $key) {
-            
-            $menu = $this->load($key);
-            
-            if( $menu) {
-                
+        $flag = true;        
+        foreach($keys as $key) {            
+            $menu = $this->load($key);            
+            if( $menu) {                
                 $modules [$key]= $menu;
-                continue;
-                
+                continue;                
             }
             
             $flag = false;
-            break;
-            
+            break;            
         }
         
-        if( !$flag) {
-            
-            return null;
-            
+        if( !$flag) {            
+            return null;            
         }
         
-        if( count($keys) === 1) {
-            
-            return $onlyUrl ? reset($modules)['url'] : reset($modules);
-            
+        if( count($keys) === 1) {            
+            return $onlyUrl ? reset($modules)['url'] : reset($modules);            
         }
         
-        return $onlyUrl ? array_column($modules, 'url') : $modules;
-        
+        return $onlyUrl ? array_column($modules, 'url') : $modules;        
     }
     
-    public function load($key) {
-        
+    public function load($key)
+    {        
         static $loades = [];
         
-        if( isset($loades[$key])) {
-            
-            return $loades[$key];
-            
+        if( isset($loades[$key])) {            
+            return $loades[$key];            
         }
         
         $module = $this->modules->getByKeyTask($key);
         
         if( $module === false or is_null($module)) {
-
             return false;
-
         }
         
         $config = [
@@ -103,8 +85,7 @@ class Module
         
         $loades [$key]= $config;
 
-        return $config;
-        
+        return $config;        
     }
     
 }

@@ -1,4 +1,6 @@
-<?php namespace App\Core\Logics\Sencha;
+<?php
+
+namespace App\Core\Logics\Sencha;
 
 use Illuminate\Filesystem\FileNotFoundException;
 
@@ -12,8 +14,8 @@ class File
     
     protected $viewNoFound = 'File no exist';
 
-    public function render($path) {
-        
+    public function render($path)
+    {        
         $debug = config('app.env') === 'local' ? true : false;
         
         /* remove extension */
@@ -22,18 +24,13 @@ class File
         /* necesary laravel, by default extension blade.php and php */
         view()->addExtension('js', 'php');
                 
-        try {
-            
-            $view = view($pathView);
-            
-        } catch (FileNotFoundException $exception) {
-            
-            $view = $debug ? $this->viewNoFound : '';
-            
+        try {            
+            $view = view($pathView);            
+        } catch (FileNotFoundException $exception) {            
+            $view = $debug ? $this->viewNoFound : '';            
         }
         
-        return $view;
-        
+        return $view;        
     }
     
 }
