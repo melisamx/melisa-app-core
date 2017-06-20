@@ -19,6 +19,11 @@ class ProfilesSeeder extends InstallSeeder
             'isSystem'=>true,
             'icon'=>'fa fa-superpowers',
         ]);        
+        $this->installProfile('personal', [
+            'name'=>'Personal',
+            'isSystem'=>false,
+            'icon'=>'fa fa-user',
+        ]);        
     }
     
 }

@@ -1,6 +1,9 @@
-<?php namespace App\Core\Logics\Modules;
+<?php
+
+namespace App\Core\Logics\Modules;
 
 use Melisa\core\LogicBusiness;
+use Melisa\Laravel\Modules\OutbuildingsInterface;
 use App\Core\Events\ModuleAccessEvent;
 
 /**
@@ -8,7 +11,7 @@ use App\Core\Events\ModuleAccessEvent;
  *
  * @author Luis Josafat Heredia Contreras
  */
-class Outbuildings
+class Outbuildings implements OutbuildingsInterface
 {
     use LogicBusiness;
     
