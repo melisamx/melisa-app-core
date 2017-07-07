@@ -11,6 +11,8 @@ use App\Core\Repositories\OptionsTasksRepository;
 use App\Core\Repositories\MenusRepository;
 use App\Core\Repositories\EventsRepository;
 use App\Core\Repositories\ListenersRepository;
+use App\Core\Repositories\AssetsRepository;
+use App\Core\Repositories\ApplicationsRepository;
 use App\Security\Repositories\GatesRepository;
 use App\Core\Logics\Menus\Install as MenusInstall;
 
@@ -33,6 +35,8 @@ class Install
     protected $events;
     protected $listeners;
     protected $gates;
+    protected $assets;
+    protected $applications;
 
     public function __construct(
         ModulesRepository $modules,
@@ -44,7 +48,9 @@ class Install
         ModulesTasksRepository $modulesTasks,
         EventsRepository $events,
         ListenersRepository $listeners,
-        GatesRepository $gates
+        GatesRepository $gates,
+        AssetsRepository $assets,
+        ApplicationsRepository $applications
     )
     {        
         $this->modules = $modules;
@@ -56,7 +62,9 @@ class Install
         $this->modulesTasks = $modulesTasks;
         $this->events = $events;
         $this->listeners = $listeners;
-        $this->gates = $gates;        
+        $this->gates = $gates;
+        $this->assets = $assets;
+        $this->applications = $applications;
     }
     
     public function init($configsModules)
@@ -92,6 +100,10 @@ class Install
                     't'=>$configModule['task']['name']
                 ]);
                 break;                
+            }
+            
+            if ( isset($configModule['asset'])) {                
+                $idEvent = $this->createAsset($configModule['asset']);                
             }
             
             if ( isset($configModule['event'])) {                
@@ -157,6 +169,43 @@ class Install
         
         $this->modules->commit();
         return true;
+    }
+    
+    public function createAsset(&$config)
+    {
+        if( !isset($config['version'])) {
+            $application = $this->findApplication(config('app.keyapp'));
+            if($application) {
+                $config ['version']= $application->version;
+            }
+        }
+        
+        switch ($config['type']) {
+            case 'css':
+                $config ['type']= 2;
+                break;
+            case 'image':
+                $config ['type']= 4;
+                break;
+
+            default:
+                $config ['type']= 1;
+                break;
+        }
+        
+        return $this->assets->updateOrCreate([
+            'id'=>$config['id']
+        ], [
+            'idAssetType'=>$config['type'],
+            'name'=>$config['name'],
+            'path'=>$config['path'],
+            'version'=>$config['version'],
+        ]); 
+    }
+    
+    public function findApplication($key)
+    {
+        return $this->applications->getModel()->where('key', $key)->first();
     }
     
     public function createMultiMenus($urlModule, &$config)

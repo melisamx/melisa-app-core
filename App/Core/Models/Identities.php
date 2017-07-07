@@ -21,4 +21,9 @@ class Identities extends BaseUuid
         'isDefault',
     ];
     
+    public function profile()
+    {
+        return $this->hasOne('App\Core\Models\Profiles', 'id', 'idProfile');
+    }
+    
 }
