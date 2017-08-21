@@ -81,6 +81,11 @@ class AssetsJsSeeder extends InstallSeeder
             'name'=>'Vue Material',
             'path'=>'/vendor/vuematerial/release/vue-material.js',
         ]);        
+        
+        $this->installAssetJs('qrcodejs', [
+            'name'=>'QR Code JS',
+            'path'=>'/vendor/qrcodejs/release/qrcode.min.js',
+        ]);        
     }
     
 }
