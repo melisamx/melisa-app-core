@@ -23,4 +23,9 @@ class Binnacle extends BaseUuid
         
     }
     
+    public function identity()
+    {        
+        return $this->hasOne('App\Core\Models\Identities', 'id', 'idIdentityCreated');        
+    }
+    
 }
