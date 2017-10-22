@@ -15,13 +15,13 @@ class CreateRbacTasksTable extends Migration
     {
         Schema::create('rbacTasks', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->char('idRbacRol', 36);
+            $table->uuid('idRbacRol');
             $table->unsignedInteger('idTask');
-            $table->char('idIdentityCreated', 36);
+            $table->uuid('idIdentityCreated');
             $table->boolean('active')->default(1);
             $table->boolean('isSystem')->default(0);
             $table->dateTime('createdAt')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->string('idIdentityUpdated', 36)->nullable();
+            $table->uuid('idIdentityUpdated')->nullable();
             $table->dateTime('updatedAt')->nullable();
             
             $table->unique(['idRbacRol', 'idTask'], 'unique_rbacTasks');
@@ -33,7 +33,7 @@ class CreateRbacTasksTable extends Migration
 
             $table->foreign('idTask')
                 ->references('id')->on('tasks')
-                ->onDelete('no action')
+                ->onDelete('cascade')
                 ->onUpdate('no action');
 
             $table->foreign('idIdentityCreated')
