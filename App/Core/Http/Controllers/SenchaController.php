@@ -14,7 +14,7 @@ class SenchaController extends Controller
 {
     
     public function file(File $view, $version, $path)
-    {        
+    {
         /* 30 dias */
         $expireTime = 2592000;
         $expiration = time() + $expireTime;
