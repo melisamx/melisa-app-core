@@ -11,15 +11,9 @@
 |
 */
 
-require_once __DIR__ . '/../App/Core/Application.php';
+use App\Core\Application;
 
-$app = new App\Core\Application(
-    [
-        'base'=>  realpath(__DIR__ . '/../App/Core'),
-        'storage'=> realpath(__DIR__ . '/../App/Core/storage'),
-        'storageSession'=>realpath(__DIR__ . '/../storage/framework/sessions'),
-    ]
-);
+$app = new Application(realpath(__DIR__ . '/../App/Core'));
 
 /*
 |--------------------------------------------------------------------------

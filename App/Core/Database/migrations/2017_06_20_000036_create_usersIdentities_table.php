@@ -15,9 +15,11 @@ class CreateUsersidentitiesTable extends Migration
     {
         Schema::create('usersIdentities', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->char('idUser', 36);
-            $table->char('idIdentity', 36)->unique();
+            $table->uuid('idUser');
+            $table->uuid('idIdentity');
             $table->dateTime('createdAt')->default(DB::raw('CURRENT_TIMESTAMP'));
+            
+            $table->unique([ 'idUser', 'idIdentity']);
 
             $table->foreign('idUser')
                 ->references('id')->on('users')
