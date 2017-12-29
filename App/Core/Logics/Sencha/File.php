@@ -23,9 +23,9 @@ class File
         
         /* necesary laravel, by default extension blade.php and php */
         view()->addExtension('js', 'php');
-                
+        
         try {            
-            $view = view($pathView);            
+            $view = view($pathView);
         } catch (FileNotFoundException $exception) {            
             $view = $debug ? $this->viewNoFound : '';            
         }
