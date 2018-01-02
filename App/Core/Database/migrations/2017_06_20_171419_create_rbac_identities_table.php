@@ -33,7 +33,7 @@ class CreateRbacIdentitiesTable extends Migration
             
             $table->foreign('idIdentity')
                 ->references('id')->on('identities')
-                ->onDelete('no action')
+                ->onDelete('cascade')
                 ->onUpdate('no action');
             
             $table->foreign('idIdentityCreated')
