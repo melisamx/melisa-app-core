@@ -2,6 +2,7 @@
 
 namespace App\Core\Models;
 
+use Laravel\Passport\HasApiTokens;
 use Melisa\Laravel\Models\UuidForKey;
 use Melisa\Laravel\Models\NoUpdateCreate;
 use Illuminate\Notifications\Notifiable;
@@ -14,7 +15,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
-    use Notifiable, UuidForKey, NoUpdateCreate;
+    use Notifiable, UuidForKey, NoUpdateCreate, HasApiTokens;
     
     /* necesary orm autenticable and no extend melisa model base */
     const CREATED_AT = 'createdAt';
