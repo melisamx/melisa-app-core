@@ -276,6 +276,8 @@ class Install
                 $config['iconClassLarge'] : 'fa fa-window-maximize fa-5x',
             'nameSpace'=>isset($config['nameSpace']) ? 
                 $config['nameSpace'] : null,
+            'route'=>isset($config['route']) ? 
+                $config['route'] : null,
         ]);
         
         if( !$module) {

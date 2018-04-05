@@ -119,6 +119,7 @@ class Hierarchical
             $configOption ['module']= [
                 'nameSpace'=>$option->moduleNameSpace,
                 'url'=>$option->moduleUrl,
+                'route'=>$option->moduleRoute,
                 'active'=>$option->moduleActive,
                 'version'=>$option->moduleVersion,
                 'allowed'=>isset($option->allowed) ? $option->allowed : true

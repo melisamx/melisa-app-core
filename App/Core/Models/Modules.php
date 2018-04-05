@@ -14,7 +14,7 @@ class Modules extends Base
     
     protected $fillable = [
         'name', 'url', 'active', 'version', 'description', 'iconClassSmall', 
-        'iconClassMedium', 'iconClassLarge', 'nameSpace'
+        'iconClassMedium', 'iconClassLarge', 'nameSpace', 'route'
     ];
     
     public $timestamps = false;

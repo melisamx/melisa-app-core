@@ -53,6 +53,7 @@ class MenusOptionsRepository extends Repository
                 
                 'mod.active as moduleActive',
                 'mod.url as moduleUrl',
+                'mod.route as moduleRoute',
                 'mod.nameSpace as moduleNameSpace',
                 'mod.version as moduleVersion',
             ]);
